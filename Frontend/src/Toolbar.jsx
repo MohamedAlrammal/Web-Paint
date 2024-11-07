@@ -1,6 +1,6 @@
 function Toolbar(){
     return(
-        <></>
+        <div className="toolbar">Toolbar</div>
     );
 }
 

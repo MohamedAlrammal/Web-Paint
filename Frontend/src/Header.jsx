@@ -1,6 +1,10 @@
 function Header(){
     return(
-        <header></header>
+        <header>
+            <h1>
+                Welcome to Paint
+            </h1>
+        </header>
     );
 }
 

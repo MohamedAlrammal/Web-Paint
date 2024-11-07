@@ -1,0 +1,56 @@
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
+}
+
+main {
+  height: 597px;
+  display: flex;
+}
+
+header {
+  background-color: #00f6ee;
+  color: white;
+  text-align: center;
+  padding: 1px 0;
+}
+
+footer {
+  background-color: rgb(189, 189, 189);
+  color: black;
+  text-align: center;
+  padding: 1em 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+span{
+  font-weight: bold;
+}
+
+.sidebar{
+  background-color: rgb(255, 193, 193);
+  width: 70px;
+}
+
+.toolbar{
+  background-color: rgb(157, 178, 249);
+  height: 50px;
+}
+
+.paintarea{
+  flex: 1;
+  height: auto;
+}
+
+.container{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar, .toolbar, .paintarea{
+  text-align: center;
+  align-content: center;
+}
