@@ -18,7 +18,7 @@ header {
 }
 
 footer {
-  background-color: rgb(189, 189, 189);
+  background-color: rgb(223, 224, 232);
   color: black;
   text-align: center;
   padding: 1em 0;
@@ -30,13 +30,28 @@ span{
 }
 
 .sidebar{
-  background-color: rgb(255, 193, 193);
-  width: 70px;
+  border-right: solid 3px rgb(223, 224, 232);
+  border-top: solid 3px rgb(223, 224, 232);
+  width: 90px;
+  text-align: center;
 }
 
 .toolbar{
-  background-color: rgb(157, 178, 249);
-  height: 50px;
+  border-bottom: solid 3px rgb(223, 224, 232);
+  border-top: solid 3px rgb(223, 224, 232);
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.toolbarLeft{
+  margin-left: 10px;
+  flex: 1;
+}
+
+.toolbarRight{
+  width: 100px;
 }
 
 .paintarea{
@@ -50,7 +65,7 @@ span{
   flex-direction: column;
 }
 
-.sidebar, .toolbar, .paintarea{
+.paintarea{
   text-align: center;
   align-content: center;
 }
