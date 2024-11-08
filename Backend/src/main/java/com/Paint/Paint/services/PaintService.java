@@ -1,5 +1,6 @@
 package com.Paint.Paint.services;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -93,14 +94,27 @@ public class PaintService {
             }
         }
     }
- 
-
-
-
-
-
-
-
-
+    public void savejson(String path, String id)throws IOException {
+        Savefiles savefiles = new Savefiles();
+        savefiles.setId(id);
+        savefiles.setShapetosaved(getcurrentShapes());
+        savefiles.json(path);
+    }
+    public Savefiles loadfromjson(String path) throws IOException {
+        Savefiles loadfiles = new Savefiles();
+        if (loadfiles!=null) {
+            List<shape> currShapes =getcurrentShapes();
+            currShapes.addAll(loadfiles.getShapetosaved());
+            saveState(currShapes);
+            changedmap();
+            return loadfiles;
+        }
+        else{
+            return null;
+        }
+    }
+    public Savefiles loadjson(String path) throws IOException {
+        return loadfromjson(path);
+    }
 
 }
