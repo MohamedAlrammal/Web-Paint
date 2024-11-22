@@ -94,11 +94,23 @@ public class PaintService {
             }
         }
     }
-    public void savejson(String path, String id)throws IOException {
+    public void updateshape(shape updated){
+        List<shape> currentshapes =getcurrentShapes();
+        for(int i=0;i<currentshapes.size();i++){
+            shape shape = currentshapes.get(i);
+            if(shape.getId().equals(updated.getId())){
+                currentshapes.set(i, updated);
+                shapesMap.put(updated.getId(), updated);
+                break;
+            }
+        }
+    }
+    public String savejson(String path, String id)throws IOException {
         Savefiles savefiles = new Savefiles();
         savefiles.setId(id);
         savefiles.setShapetosaved(getcurrentShapes());
         savefiles.json(path);
+        return id;
     }
     public Savefiles loadfromjson(String path) throws IOException {
         Savefiles loadfiles = new Savefiles();
@@ -116,5 +128,7 @@ public class PaintService {
     public Savefiles loadjson(String path) throws IOException {
         return loadfromjson(path);
     }
+
+
 
 }
