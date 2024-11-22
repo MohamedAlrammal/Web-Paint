@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
  
 })
 @JsonIgnoreProperties(value = "attributes" ,ignoreUnknown = true)
-public abstract class shape {
+public abstract class shape implements Cloneable{// clonable 
     private String id;
     private String name ;
     private double x ;
@@ -41,6 +41,8 @@ public abstract class shape {
         this.scaleofY = s.scaleofY ;
         this.fill = s.fill ;
     }
+    public abstract shape clone(String cloneid)throws CloneNotSupportedException;
+
     public shape(){
     }
     public String getId() {

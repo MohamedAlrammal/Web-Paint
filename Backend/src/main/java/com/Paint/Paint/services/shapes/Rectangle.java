@@ -28,4 +28,10 @@ public class Rectangle extends shape {
     public void setHeight(double height) {
         this.height = height;
     } 
+    @Override
+    public Rectangle clone(String cloneid) throws CloneNotSupportedException {
+        Rectangle clonesquare = new Rectangle(this);
+        clonesquare.setId(cloneid);
+        return clonesquare;
+    }
 }

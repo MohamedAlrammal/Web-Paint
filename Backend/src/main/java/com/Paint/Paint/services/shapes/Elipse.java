@@ -26,8 +26,10 @@ public class Elipse extends shape {
     public void setRadiusY(double radiusY) {
         this.radiusY = radiusY;
     }
-    
-    
-
-    
+    @Override
+    public Elipse clone(String cloneid) throws CloneNotSupportedException {
+        Elipse clonesquare = new Elipse(this);
+        clonesquare.setId(cloneid);
+        return clonesquare;
+    }
 }

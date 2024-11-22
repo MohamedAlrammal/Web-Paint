@@ -25,9 +25,12 @@ public class Circle extends shape {
     public void setRadius(double radius) {
         this.radius = radius;
     }
-
-
-
-
+  
+    @Override
+    public Circle clone(String cloneid) throws CloneNotSupportedException {
+        Circle clonesquare = new Circle(this);
+        clonesquare.setId(cloneid);
+        return clonesquare;
+    }
 
 }

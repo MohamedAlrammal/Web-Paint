@@ -36,4 +36,11 @@ public class Square extends shape {
     public void setHeight(double height) {
         this.height = height;
     }
+
+    @Override
+    public Square clone(String cloneid) throws CloneNotSupportedException {
+        Square clonesquare = new Square(this);
+        clonesquare.setId(cloneid);
+        return clonesquare;
+    }
 }

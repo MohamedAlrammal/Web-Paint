@@ -28,7 +28,11 @@ public class Triangle extends shape {
         this.sides = sides;
     }
 
-
-    
+    @Override
+    public Triangle clone(String cloneid) throws CloneNotSupportedException {
+        Triangle clonesquare = new Triangle(this);
+        clonesquare.setId(cloneid);
+        return clonesquare;
+    }
 }
  
