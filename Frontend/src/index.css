@@ -54,7 +54,7 @@ span{
   width: 100px;
 }
 
-.paintarea{
+#paintarea{
   flex: 1;
   height: auto;
 }
