@@ -5,6 +5,7 @@ import TriangleIcon from '@mui/icons-material/ChangeHistoryTwoTone';
 import RectangleIcon from '@mui/icons-material/RectangleTwoTone';
 import LineIcon from '@mui/icons-material/HorizontalRule';
 import ShapesIcon from '@mui/icons-material/CategoryRounded';
+import TextIcon from '@mui/icons-material/TextFields';
 
 function Sidebar(){
     return(
@@ -27,6 +28,9 @@ function Sidebar(){
             </IconButton>
             <IconButton>
                 <TriangleIcon color='disabled' fontSize="large"/>
+            </IconButton>
+            <IconButton>
+                <TextIcon color='disabled' fontSize="large"/>
             </IconButton>
         </div>
     );
