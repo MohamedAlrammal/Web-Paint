@@ -25,4 +25,6 @@ public class ShapeDTO {  //  data transfer object (DTO)
     public double radius=0.0 ;
     public int sides;
     public ArrayList<Double> points ;
+    public double tension;
+    public boolean closed = false;
 }
