@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Line")
 public class Line extends shape{
     private ArrayList<Double> points;
+    private double tension ;
     public Line (ShapeDTO l) {
         super(l);
         this.points = l.points ;

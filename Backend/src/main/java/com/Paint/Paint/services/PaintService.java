@@ -45,6 +45,12 @@ public class PaintService {
             shapesMap.put(shape.getId(), shape);
         }
     }
+    public List<shape> clearAll() {
+        List<shape> currShapes = new ArrayList<>();
+        saveState(currShapes); 
+        shapesMap.clear();  
+        return currShapes;   
+    }
     public void addShape(shape shape){
         List<shape> currentShapes=getcurrentShapes();
         currentShapes.add(shape);

@@ -1,16 +1,16 @@
 package com.Paint.Paint.services.shapes;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-@JsonTypeName("triangle")
-public class Triangle extends shape {
+@JsonTypeName("hexagon")
+public class Hexagon extends shape {
     private double radius;
     private int sides;
-    public Triangle (ShapeDTO t){
+    public Hexagon (ShapeDTO t){
         super(t);
         this.radius = t.radius ;
         this.sides = t.sides ;
     }
-    public Triangle(Triangle t){
+    public Hexagon(Hexagon t){
         super(t);
         this.radius = t.radius ;
         this.sides = t.sides ;
@@ -22,7 +22,7 @@ public class Triangle extends shape {
         this.radius = radius;
     }
     public int getSides() {
-        return 3;
+        return 6;
     }
     public void setSides(int sides) {
         this.sides = sides;
@@ -30,7 +30,7 @@ public class Triangle extends shape {
 
     @Override
     public shape clone(String cloneid) throws CloneNotSupportedException {
-        Triangle clonesquare = new Triangle(this);
+        Hexagon clonesquare = new Hexagon(this);
         clonesquare.setId(cloneid);
         return clonesquare;
     }

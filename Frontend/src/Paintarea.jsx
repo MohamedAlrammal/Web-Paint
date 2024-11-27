@@ -1,135 +1,151 @@
 import { useEffect, useState, useRef } from 'react';
-import { Stage, Layer, Transformer, Rect, Text, Circle, Line } from 'react-konva';
+import { Stage, Layer, Transformer } from 'react-konva';
 import axios from "axios";
-import { Alert } from '@mui/material';
 
-function Paintarea(props){
-    const [stageSize, setStageSize] = useState({width:1450,height:545});
+function Paintarea(props) {
+    const [stageSize, setStageSize] = useState({ width: 1450, height: 545 });
     const [newID, setNewID] = useState("0");
-
-    //Check weather the page was refreshed or not and send to back to clear data
-    /*useEffect(() => {
-      if (sessionStorage.getItem('is_reloaded')) {
-          alert("Data will be lost");
-          //axios.post("http://localhost:8080/paint/clearAll");
-      }
-    }, []);*/
-
-    useEffect(() => {
-            const handleResize = () => {
-            const container = document.getElementById("paintarea");
-            console.log(container);
-            console.log(document.getElementById("konvaLayer"));
-            setStageSize({
-                width: container.offsetWidth,
-                height: container.offsetHeight
-            });
-        };
-    
-        handleResize();
-        window.addEventListener('resize', handleResize);
-    
-        return () => {
-          window.removeEventListener('resize', handleResize);
-        };
-      }, []);
-
     const [shapes, setShapes] = useState([]);
     const [isDrawing, setIsDrawing] = useState(false);
     const [newShape, setNewShape] = useState(null);
     const layerRef = useRef(null);
-    const [selectedNode, setSelectedNode] = useState(null); // Track the currently selected shape
     const transformerRef = useRef(null);
-    
-      const handleMouseDown = async (e) => {
-        if(props.shapeType != null){
-          const { x, y } = e.target.getStage().getPointerPosition();
-          console.log(layerRef);
-          console.log(props.shapeType);
-          console.log(typeof(props.shapeType));
-          const response = await axios.post("http://localhost:8080/paint/create", {
-            "name": props.shapeType,
-            "id" : newID,
-            "x": x,
-            "y": y
-          });
-          console.log(response.data);
-          const shape = new Konva[response.data.name](response.data);
-        setNewShape(shape);
-        layerRef.current.add(shape);
-        layerRef.current.draw();
-        setIsDrawing(true);
+    const [selectedNode, setSelectedNode] = useState(null); // Track the currently selected shape
+
+    // Handle resizing of the canvas area
+    useEffect(() => {
+        const handleResize = () => {
+            const container = document.getElementById("paintarea");
+            setStageSize({
+                width: container.offsetWidth,
+                height: container.offsetHeight,
+            });
+        };
+
+        handleResize();
+        window.addEventListener("resize", handleResize);
+
+        return () => {
+            window.removeEventListener("resize", handleResize);
+        };
+    }, []);
+
+    // Handle mouse down event to start drawing a new shape
+    const handleMouseDown = async (e) => {
+        if (props.shapeType) {
+            const { x, y } = e.target.getStage().getPointerPosition();
+
+            try {
+                const response = await axios.post("http://localhost:8088/paint/create", {
+                    name: props.shapeType,
+                    id: newID,
+                    x,
+                    y,
+                });
+
+                const shapeData = response.data;
+                const shape = new Konva[shapeData.name]({
+                    ...shapeData,
+                });
+
+                setNewShape(shape);
+                layerRef.current.add(shape);
+                layerRef.current.draw();
+                setIsDrawing(true);
+            } catch (error) {
+                console.error("Error creating shape:", error);
+            }
         }
-      };
-    
-      const handleMouseMove = (e) => {
-        if (!isDrawing) return;
+    };
+
+    // Handle mouse move event to resize the shape while drawing
+    const handleMouseMove = (e) => {
+        if (!isDrawing || !newShape) return;
+
         const { x, y } = e.target.getStage().getPointerPosition();
         newShape.width(Math.abs(x - newShape.x()));
         newShape.height(Math.abs(y - newShape.y()));
         layerRef.current.batchDraw();
     };
-    
-      const handleMouseUp = () => {
-        if (!isDrawing) return;
-        const response = axios.put("http://localhost:8080/paint/update", {
-          "name": newShape.name(),
-          "id" : newID,
-          "width": newShape.width(),
-          "height": newShape.height()
-        });
-        console.log(response);
-        setShapes((prevShapes) => [...prevShapes, newShape]);
-        setNewShape(null);
-        setNewID(n => (parseInt(n) + 1).toString());
-        setIsDrawing(false);
-      };
 
-      useEffect(() => {
+    // Handle mouse up event to finalize the drawing
+    const handleMouseUp = async () => {
+        if (!isDrawing || !newShape) return;
+
+        try {
+            await axios.put("http://localhost:8088/paint/update", {
+                name: newShape.name(),
+                id: newID,
+                width: newShape.width(),
+                height: newShape.height(),
+            });
+
+            setShapes((prevShapes) => [...prevShapes, newShape]);
+            setNewShape(null);
+            setNewID((prevID) => (parseInt(prevID) + 1).toString());
+            setIsDrawing(false);
+        } catch (error) {
+            console.error("Error updating shape:", error);
+        }
+    };
+
+    // Update the transformer whenever the selected node changes
+    useEffect(() => {
         if (selectedNode) {
             transformerRef.current.nodes([selectedNode]);
             transformerRef.current.getLayer().batchDraw();
         }
-      }, [selectedNode]);
+    }, [selectedNode]);
 
-      useEffect(() => {
-        console.log(selectedNode);
-        if (selectedNode != null) {
+    // Update the fill color of the selected shape
+    useEffect(() => {
+        if (selectedNode) {
             selectedNode.fill(props.color);
             layerRef.current.batchDraw();
         }
-      }, [props.color]);
+    }, [props.color]);
 
-      useEffect(() => {
-        console.log(selectedNode);
-        if (selectedNode != null) {
+    // Update the stroke color of the selected shape
+    useEffect(() => {
+        if (selectedNode) {
             selectedNode.stroke(props.strokeColor);
             layerRef.current.batchDraw();
         }
-      }, [props.strokeColor]);
+    }, [props.strokeColor]);
+    // Listen for changes in opacity and apply it to the selected shape
+useEffect(() => {
+  if (selectedNode) {
+      selectedNode.opacity(props.opacity);
+      layerRef.current.batchDraw();
+  }
+}, [props.opacity]);
 
-      const handleClick = (e) => {
-        if(e.target instanceof Konva.Stage){
-          setSelectedNode(null);
+
+    // Handle stage click to select or deselect shapes
+    const handleClick = (e) => {
+        if (e.target instanceof Konva.Stage) {
+            setSelectedNode(null);
+        } else {
+            setSelectedNode(e.target);
         }
-        else{
-          setSelectedNode(e.target);
-        } 
-      };
+    };
 
-    return(
-        <div id="paintarea">
-            <Stage width={stageSize.width} height={stageSize.height}
+    return (
+        <div id="paintarea" style={{ width: "100%", height: "100%" }}>
+            <Stage
+                width={stageSize.width}
+                height={stageSize.height}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
-                onClick={handleClick}>
+                onClick={handleClick}
+            >
                 <Layer ref={layerRef}>
-                  {selectedNode && <Transformer ref={transformerRef} />}
+                    {selectedNode && <Transformer ref={transformerRef} />}
                 </Layer>
             </Stage>
         </div>
     );
 }
 
-export default Paintarea
+export default Paintarea;

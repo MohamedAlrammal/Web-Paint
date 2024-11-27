@@ -18,27 +18,8 @@ function Toolbar(props){
     function handleStrokeColorChange(e){
         props.setStrokeColor(e.target.value);
     }
-    function handleClick(option){
-        switch(option){
-            case "undo":
-                props.setUndo(true);
-                break;
-            case "redo":
-                props.setRedo(true);
-                break;
-            case "copy":
-                props.setCopy(true);
-                break;
-            case "delete":
-                props.setDel(true);
-                break;
-            case "save":
-                props.setSave(true);
-                break;
-            case "load":
-                props.setLoad(true);
-                break;
-        }
+    function handleOpacityChange(e) {
+        props.setOpacity(e.target.value);
     }
 
     return(
@@ -52,30 +33,42 @@ function Toolbar(props){
                     <FillColorIcon style={{marginRight: "7px"}} sx={{ fontSize: 27, color: "#B3B3B3", stroke: props.strokeColor, strokeWidth: "2"}}/>
                     <input type='color' value={props.strokeColor} onChange={handleStrokeColorChange} style={{display: "none"}}/>
                 </label>
+                <label>
+                <OpacityIcon color="disabled" sx={{ fontSize: 30 }} />
+                <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value={props.opacity}
+                    onChange={handleOpacityChange}
+                    style={{ width: "100px", marginLeft: "10px" }}
+                />
+                </label>
                 <IconButton>
                     <BorderWidthIcon color='disabled' sx={{ fontSize: 30 }}/>
                 </IconButton>
                 <IconButton>
                     <OpacityIcon color='disabled' sx={{ fontSize: 30 }}/>
                 </IconButton>
-                <IconButton onClick={() => handleClick("undo")}>
+                <IconButton>
                     <UndoIcon color='disabled' sx={{ fontSize: 30 }}/>
                 </IconButton>
-                <IconButton onClick={() => handleClick("redo")}>
+                <IconButton>
                     <RedoIcon color='disabled' sx={{ fontSize: 30 }}/>
                 </IconButton>
-                <IconButton onClick={() => handleClick("copy")}>
+                <IconButton>
                     <CopyIcon color='disabled' sx={{ fontSize: 30 }}/>
                 </IconButton>
-                <IconButton onClick={() => handleClick("delete")}>
+                <IconButton>
                     <DeleteIcon color='disabled' sx={{ fontSize: 30 }}/>
                 </IconButton>
             </div>
             <div className='toolbarRight'>
-                <IconButton onClick={() => handleClick("save")}>
+                <IconButton>
                     <SaveIcon color='disabled' sx={{ fontSize: 30 }}/>
                 </IconButton>
-                <IconButton onClick={() => handleClick("load")}>
+                <IconButton>
                     <LoadIcon color='disabled' sx={{ fontSize: 30 }}/>
                 </IconButton>
             </div>
