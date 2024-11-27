@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.Paint.Paint.services.shapes.shape;
 
 @Service
+
 public class PaintService {
 
     private static PaintService paintService =null;
@@ -121,7 +122,6 @@ public class PaintService {
                 break;
             }
         }
-
         if(dto.name.equals("Rect")){
             dto.height = newY - shape.getY();
             dto.width = newX - shape.getX();
@@ -137,14 +137,28 @@ public class PaintService {
         dto.y = shape.getY();
         return dto;
     }
-
-
-    public String savejson(String path, String id)throws IOException {
+    public void savetoxml(String path) throws IOException{
         Savefiles savefiles = new Savefiles();
-        savefiles.setId(id);
+        savefiles.setShapetosaved(getcurrentShapes());
+        savefiles.saveToXML(path);
+    }
+    public Savefiles loadfromxml(String path) throws IOException{
+        Savefiles loadfiles = new Savefiles();
+        if (loadfiles!=null) {
+            List<shape> currShapes =getcurrentShapes();
+            currShapes.addAll(loadfiles.getShapetosaved());
+            saveState(currShapes);
+            changedmap();
+            return loadfiles;
+        }
+        else{
+            return null;
+        }
+    }
+    public void savejson(String path)throws IOException {
+        Savefiles savefiles = new Savefiles();
         savefiles.setShapetosaved(getcurrentShapes());
         savefiles.json(path);
-        return id;
     }
     public Savefiles loadfromjson(String path) throws IOException {
         Savefiles loadfiles = new Savefiles();
@@ -159,10 +173,27 @@ public class PaintService {
             return null;
         }
     }
-    public Savefiles loadjson(String path) throws IOException {
-        return loadfromjson(path);
+    public String savechoice(String path) throws IOException {
+        if (path.endsWith("json")) {
+            savejson(path);
+            return "saved in" + path;
+        }else if (path.endsWith("xml")){
+            savetoxml(path);
+            return "saved in" + path;
+        }
+        else{
+            return null;
+        }  
     }
-
-
+public Savefiles loadfiles(String path) throws IOException{
+    if (path.endsWith("json")) {
+        return loadfromjson(path);
+    } else if (path.endsWith("xml")){
+        return loadfromxml(path);
+    }
+    else{
+        return null;
+    }
+}
 
 }

@@ -123,9 +123,9 @@ public class control {
         }
     }
         @PostMapping("/save")
-        public ResponseEntity<String> save(@RequestParam String path,@RequestParam String idCounter){
+        public ResponseEntity<String> save(@RequestParam String path){
              try{
-                return ResponseEntity.ok(paintService.savejson(path, idCounter));
+                return ResponseEntity.ok(paintService.savechoice(path));
              }
              catch(Exception e){
                  e.printStackTrace();
@@ -135,7 +135,7 @@ public class control {
         @PostMapping("/load")
         public ResponseEntity<Savefiles> load(@RequestParam String path){
              try{
-                return ResponseEntity.ok(paintService.loadjson(path));
+                return ResponseEntity.ok(paintService.loadfiles(path));
              }
              catch(Exception e){
                  e.printStackTrace();

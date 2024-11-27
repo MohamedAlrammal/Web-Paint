@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class Text extends shape {
     private String text;
     private double fontFamily;
+    
 
     public Text(ShapeDTO docreate) {
         super(docreate);
