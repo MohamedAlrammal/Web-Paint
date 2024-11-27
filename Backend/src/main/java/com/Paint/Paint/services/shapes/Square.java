@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class Square extends shape {
     private double width;
     private double height;
-    private double sidelength=width;
 
  
     public Square(ShapeDTO docreate) {

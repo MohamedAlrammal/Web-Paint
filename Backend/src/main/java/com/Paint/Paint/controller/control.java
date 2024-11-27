@@ -45,6 +45,20 @@ public class control {
         }
       }
 
+    @PutMapping("/createupdate/{newX}/{newY}")
+    public ResponseEntity<Object> createUpdate(@RequestBody ShapeDTO dto , @PathVariable double newX, @PathVariable double newY) {
+        try {
+            ShapeFactory factory = new ShapeFactory();
+            dto = paintService.updateDTO(dto, newX, newY);
+            shape updatedShape = factory.createShape(dto);
+            paintService.updateshape(updatedShape);
+            return ResponseEntity.ok(updatedShape);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
+        }
+    }
+
       @PutMapping("/update")
       public ResponseEntity<Object> updateShape(@RequestBody ShapeDTO dto) {
           try {

@@ -36,16 +36,16 @@ function Sidebar(props){
                         sx={{ backgroundColor: activeShape === 'Circle' ? '#e0e0e0' : 'transparent' }}>
                 <CircleIcon color='disabled' fontSize="large"/>
             </IconButton>
-            <IconButton title='Square' onClick={(e)=>handleShapeType("Square",e)}
-                        sx={{ backgroundColor: activeShape === 'Square' ? '#e0e0e0' : 'transparent' }}>
+            <IconButton title='Square' onClick={(e)=>handleShapeType("square",e)}
+                        sx={{ backgroundColor: activeShape === 'square' ? '#e0e0e0' : 'transparent' }}>
                 <SquareIcon color='disabled' fontSize="large"/>
             </IconButton>
             <IconButton title='Rectangle' onClick={(e)=>handleShapeType("Rect",e)}
                         sx={{ backgroundColor: activeShape === 'Rect' ? '#e0e0e0' : 'transparent' }}>
                 <RectangleIcon color='disabled' fontSize="large"/>
             </IconButton>
-            <IconButton title='Triangle' onClick={(e)=>handleShapeType("Triangle",e)}
-                        sx={{ backgroundColor: activeShape === 'Triangle' ? '#e0e0e0' : 'transparent' }}>
+            <IconButton title='Triangle' onClick={(e)=>handleShapeType("triangle",e)}
+                        sx={{ backgroundColor: activeShape === 'triangle' ? '#e0e0e0' : 'transparent' }}>
                 <TriangleIcon color='disabled' fontSize="large"/>
             </IconButton>
             <IconButton title='Text' onClick={(e)=>handleShapeType("Text",e)}

@@ -4,6 +4,7 @@ public class ShapeFactory {
     public shape createShape(ShapeDTO dto) {
         switch (dto.name) {
             case "square":
+                dto.name = "Rect";
                 return new Square(dto);
             case "Rect":
                 return new Rectangle(dto);
@@ -12,6 +13,7 @@ public class ShapeFactory {
             case "Circle":
                 return new Circle(dto);
             case "triangle":
+                dto.name = "RegularPolygon";
                 return new Triangle(dto);
             case "hexagon":
                 return new Hexagon(dto);

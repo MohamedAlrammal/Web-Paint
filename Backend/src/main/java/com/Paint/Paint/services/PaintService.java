@@ -1,11 +1,10 @@
 package com.Paint.Paint.services;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
+import com.Paint.Paint.services.shapes.ShapeDTO;
+import com.Paint.Paint.services.shapes.ShapeFactory;
 import org.springframework.stereotype.Service;
 
 import com.Paint.Paint.services.shapes.shape;
@@ -111,6 +110,35 @@ public class PaintService {
             }
         }
     }
+
+    public ShapeDTO updateDTO(ShapeDTO dto, double newX, double newY){
+        List<shape> currentshapes =getcurrentShapes();
+        shape shape = currentshapes.get(0);
+        int i;
+        for(i = 0;i<currentshapes.size();i++){
+            shape = currentshapes.get(i);
+            if(shape.getId().equals(dto.id)){
+                break;
+            }
+        }
+
+        if(dto.name.equals("Rect")){
+            dto.height = newY - shape.getY();
+            dto.width = newX - shape.getX();
+        }
+        else if(dto.name.equals("square")) {
+            dto.height = newY - shape.getY();
+            dto.width = dto.height;
+        }
+        else if(dto.name.equals("Circle") || dto.name.equals("triangle") || dto.name.equals("polygon") || dto.name.equals("hexagon")){
+            dto.radius = Math.sqrt(Math.pow(newY - shape.getY(),2)+ Math.pow(newX - shape.getX(),2));
+        }
+        dto.x = shape.getX();
+        dto.y = shape.getY();
+        return dto;
+    }
+
+
     public String savejson(String path, String id)throws IOException {
         Savefiles savefiles = new Savefiles();
         savefiles.setId(id);
