@@ -10,37 +10,44 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Savefiles {
 
-     List<shape> lastUpdate = new ArrayList<>();
-
-
-    public void setLastUpdate(List<shape> lastUpdate){
-        this.lastUpdate = lastUpdate;
+    String id =null;
+    List <shape> shapetosaved =new ArrayList<>();
+    
+    public String getId() {
+        return id;
     }
-
-
-    public List<shape> getLastUpdate(){
-        return this.lastUpdate;
+    
+    public List<shape> getShapetosaved() {
+        return shapetosaved;
     }
-
-
-    public void saveToJson(String path) throws IOException {
+    
+    public void setId(String id) {
+        this.id = id;
+    }
+    
+    public void setShapetosaved(List<shape> shapetosaved) {
+        this.shapetosaved = shapetosaved;
+    }
+    public void json(String path) throws IOException{
+        //save to json file
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.writeValue(new File(path), this);
-        }catch (IOException e){
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public  static Savefiles loadToJson(String path) throws IOException {
+    
+    public static Savefiles fromJson(String path) throws IOException{
+        //load from json file
         try {
-            ObjectMapper mapper = new ObjectMapper();
-            Savefiles object = mapper.readValue(new File(path), Savefiles.class);
-            return object;
-        } catch (IOException e) {
+        ObjectMapper mapper = new ObjectMapper();
+        Savefiles object = mapper.readValue(new File(path), Savefiles.class);
+        return object;
+        } catch (Exception e) {
             e.printStackTrace();
-            return null;
-        }
-
-    }
+            return null ;
+        }  
+    } 
 }
-

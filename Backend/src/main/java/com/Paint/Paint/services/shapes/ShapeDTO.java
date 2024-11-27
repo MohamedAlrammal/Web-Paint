@@ -1,4 +1,6 @@
 package com.Paint.Paint.services.shapes;
+import java.util.ArrayList;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -22,4 +24,5 @@ public class ShapeDTO {  //  data transfer object (DTO)
     public double height ; 
     public double radius=0.0 ;
     public int sides;
+    public ArrayList<Double> points ;
 }

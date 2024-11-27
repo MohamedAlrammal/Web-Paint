@@ -8,9 +8,6 @@ import java.util.Stack;
 
 import org.springframework.stereotype.Service;
 
-import com.Paint.Paint.services.shapes.Circle;
-import com.Paint.Paint.services.shapes.Elipse;
-import com.Paint.Paint.services.shapes.Rectangle;
 import com.Paint.Paint.services.shapes.shape;
 
 @Service
@@ -97,43 +94,41 @@ public class PaintService {
             }
         }
     }
-      public void updateshape(shape updatedshape) {
-        List<shape> currentshapes = getcurrentShapes();
-        for (int i = 0; i < currentshapes.size(); i++) {
+    public void updateshape(shape updated){
+        List<shape> currentshapes =getcurrentShapes();
+        for(int i=0;i<currentshapes.size();i++){
             shape shape = currentshapes.get(i);
-            if (shape.getId().equals(updatedshape.getId())) {
-                currentshapes.set(i, updatedshape);
-                break ;
+            if(shape.getId().equals(updated.getId())){
+                currentshapes.set(i, updated);
+                shapesMap.put(updated.getId(), updated);
+                break;
             }
         }
-        saveState(currentshapes);
-        changedmap();
     }
-    public void saveToJson(String path) throws IOException {
-        Savefiles save = new Savefiles();
-        save.setLastUpdate(getcurrentShapes());
-        save.saveToJson(path);
+    public String savejson(String path, String id)throws IOException {
+        Savefiles savefiles = new Savefiles();
+        savefiles.setId(id);
+        savefiles.setShapetosaved(getcurrentShapes());
+        savefiles.json(path);
+        return id;
     }
-    
-    public Savefiles loadFromjson(String path) throws IOException {
-        Savefiles loadedSave = Savefiles.loadToJson(path);
-        if (loadedSave != null) {
-            List<shape> currentShapes = getcurrentShapes();
-            currentShapes.addAll(loadedSave.getLastUpdate());
-            saveState(currentShapes);
+    public Savefiles loadfromjson(String path) throws IOException {
+        Savefiles loadfiles = new Savefiles();
+        if (loadfiles!=null) {
+            List<shape> currShapes =getcurrentShapes();
+            currShapes.addAll(loadfiles.getShapetosaved());
+            saveState(currShapes);
             changedmap();
-            return loadedSave;
-        } else {
+            return loadfiles;
+        }
+        else{
             return null;
         }
     }
-    public String saveFactory(String path) throws IOException {
-        if (path.endsWith("json")) {
-            saveToJson(path);
-            return "saved in " + path ;
-        }
-        else
-            return "unknown extension" ;
+    public Savefiles loadjson(String path) throws IOException {
+        return loadfromjson(path);
     }
+
+
 
 }

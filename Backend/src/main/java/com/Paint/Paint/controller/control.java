@@ -57,19 +57,19 @@ public class control {
               return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
           }
       }
-  
-        @PostMapping("clone/{id}/{cloneid}")
-        public ResponseEntity<shape> clone(@PathVariable String idOld , @PathVariable String idNew ){
-            System.out.println("arriave");
-            try {
-                shape s = paintService.getShapeById(idOld).clone(idNew);
-                paintService.addShape(s);
-                return ResponseEntity.ok(s);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-            }
-        }
+      @PostMapping("/clone/{idOld}/{idNew}")
+      public ResponseEntity<shape> clone(@PathVariable String idOld , @PathVariable String idNew ){
+          System.out.println("clone");
+          try {
+            System.out.println("cloned");
+              shape s = paintService.getShapeById(idOld).clone(idNew);
+              paintService.addShape(s);
+              return ResponseEntity.ok(s);
+          } catch (Exception e) {
+              e.printStackTrace();
+              return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+          }
+      }
       @DeleteMapping("/remove/{shapeId}")
       public ResponseEntity<List<shape>> removeShape(@PathVariable String shapeId) {
         try {
@@ -99,22 +99,20 @@ public class control {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-    @PostMapping("/save")
-    public ResponseEntity<String> save(@RequestParam String path) {
-        System.out.println("sent");
-        try {
-            System.out.println("lllll");
-            return ResponseEntity.ok(paintService.saveFactory(path));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to save shapes ");
+        @PostMapping("/save")
+        public ResponseEntity<String> save(@RequestParam String path,@RequestParam String idCounter){
+             try{
+                return ResponseEntity.ok(paintService.savejson(path, idCounter));
+             }
+             catch(Exception e){
+                 e.printStackTrace();
+                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
+             }
         }
-    }
-    
         @PostMapping("/load")
         public ResponseEntity<Savefiles> load(@RequestParam String path){
              try{
-                return ResponseEntity.ok(paintService.loadFromjson(path));
+                return ResponseEntity.ok(paintService.loadjson(path));
              }
              catch(Exception e){
                  e.printStackTrace();
@@ -127,5 +125,7 @@ public class control {
     public String hello() {
         return "hello";
     }
+    
+
     
 }
