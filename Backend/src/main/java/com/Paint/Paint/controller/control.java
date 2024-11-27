@@ -70,6 +70,15 @@ public class control {
               return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
           }
       }
+      @DeleteMapping("/clearAll")
+      public ResponseEntity<List<shape>> clearAll() {
+        try {
+            return ResponseEntity.ok(paintService.clearAll());
+        }catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+      }
       @DeleteMapping("/remove/{shapeId}")
       public ResponseEntity<List<shape>> removeShape(@PathVariable String shapeId) {
         try {
