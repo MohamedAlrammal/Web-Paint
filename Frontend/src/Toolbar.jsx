@@ -18,6 +18,9 @@ function Toolbar(props){
     function handleStrokeColorChange(e){
         props.setStrokeColor(e.target.value);
     }
+    function handleOpacityChange(e) {
+        props.setOpacity(e.target.value);
+    }
 
     return(
         <div className="toolbar">
@@ -29,6 +32,18 @@ function Toolbar(props){
                 <label style={{display: "flex"}}>
                     <FillColorIcon style={{marginRight: "7px"}} sx={{ fontSize: 27, color: "#B3B3B3", stroke: props.strokeColor, strokeWidth: "2"}}/>
                     <input type='color' value={props.strokeColor} onChange={handleStrokeColorChange} style={{display: "none"}}/>
+                </label>
+                <label>
+                <OpacityIcon color="disabled" sx={{ fontSize: 30 }} />
+                <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value={props.opacity}
+                    onChange={handleOpacityChange}
+                    style={{ width: "100px", marginLeft: "10px" }}
+                />
                 </label>
                 <IconButton>
                     <BorderWidthIcon color='disabled' sx={{ fontSize: 30 }}/>
