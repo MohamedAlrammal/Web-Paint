@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 
-@JsonTypeName("line")
+@JsonTypeName("Line")
 public class Line extends shape{
     private ArrayList<Double> points;
     public Line (ShapeDTO l) {

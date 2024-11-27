@@ -6,7 +6,6 @@ import RectangleIcon from '@mui/icons-material/RectangleTwoTone';
 import LineIcon from '@mui/icons-material/HorizontalRule';
 import ShapesIcon from '@mui/icons-material/CategoryRounded';
 import TextIcon from '@mui/icons-material/TextFields';
-import { Circle } from 'react-konva';
 
 function Sidebar(props){
 
@@ -25,22 +24,22 @@ function Sidebar(props){
             <ShapesIcon sx={{ fontSize: 45 }}/>
             <p style={{margin: "0", fontFamily: "Arial"}}>Shapes</p>
             <br></br>
-            <IconButton onClick={()=>handleShapeType("Line")}>
+            <IconButton title='Line' onClick={()=>handleShapeType("Line")}>
                 <LineIcon color='disabled' fontSize="large"/>
             </IconButton>
-            <IconButton onClick={()=>handleShapeType("Circle")}>
+            <IconButton title='Circle' onClick={()=>handleShapeType("Circle")}>
                 <CircleIcon color='disabled' fontSize="large"/>
             </IconButton>
-            <IconButton onClick={()=>handleShapeType("square")}>
+            <IconButton title='Square' onClick={()=>handleShapeType("Square")}>
                 <SquareIcon color='disabled' fontSize="large"/>
             </IconButton>
-            <IconButton onClick={()=>handleShapeType("Rect")}>
+            <IconButton title='Rectangle' onClick={()=>handleShapeType("Rect")}>
                 <RectangleIcon color='disabled' fontSize="large"/>
             </IconButton>
-            <IconButton onClick={()=>handleShapeType("Triangle")}>
+            <IconButton title='Triangle' onClick={()=>handleShapeType("Triangle")}>
                 <TriangleIcon color='disabled' fontSize="large"/>
             </IconButton>
-            <IconButton onClick={()=>handleShapeType("Text")}>
+            <IconButton title='Text' onClick={()=>handleShapeType("Text")}>
                 <TextIcon color='disabled' fontSize="large"/>
             </IconButton>
         </div>

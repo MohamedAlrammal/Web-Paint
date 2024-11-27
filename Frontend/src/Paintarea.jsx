@@ -1,10 +1,19 @@
 import { useEffect, useState, useRef } from 'react';
 import { Stage, Layer, Transformer, Rect, Text, Circle, Line } from 'react-konva';
 import axios from "axios";
+import { Alert } from '@mui/material';
 
 function Paintarea(props){
     const [stageSize, setStageSize] = useState({width:1450,height:545});
     const [newID, setNewID] = useState("0");
+
+    //Check weather the page was refreshed or not and send to back to clear data
+    /*useEffect(() => {
+      if (sessionStorage.getItem('is_reloaded')) {
+          alert("Data will be lost");
+          //axios.post("http://localhost:8080/paint/clearAll");
+      }
+    }, []);*/
 
     useEffect(() => {
             const handleResize = () => {

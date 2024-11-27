@@ -18,6 +18,28 @@ function Toolbar(props){
     function handleStrokeColorChange(e){
         props.setStrokeColor(e.target.value);
     }
+    function handleClick(option){
+        switch(option){
+            case "undo":
+                props.setUndo(true);
+                break;
+            case "redo":
+                props.setRedo(true);
+                break;
+            case "copy":
+                props.setCopy(true);
+                break;
+            case "delete":
+                props.setDel(true);
+                break;
+            case "save":
+                props.setSave(true);
+                break;
+            case "load":
+                props.setLoad(true);
+                break;
+        }
+    }
 
     return(
         <div className="toolbar">
@@ -36,24 +58,24 @@ function Toolbar(props){
                 <IconButton>
                     <OpacityIcon color='disabled' sx={{ fontSize: 30 }}/>
                 </IconButton>
-                <IconButton>
+                <IconButton onClick={() => handleClick("undo")}>
                     <UndoIcon color='disabled' sx={{ fontSize: 30 }}/>
                 </IconButton>
-                <IconButton>
+                <IconButton onClick={() => handleClick("redo")}>
                     <RedoIcon color='disabled' sx={{ fontSize: 30 }}/>
                 </IconButton>
-                <IconButton>
+                <IconButton onClick={() => handleClick("copy")}>
                     <CopyIcon color='disabled' sx={{ fontSize: 30 }}/>
                 </IconButton>
-                <IconButton>
+                <IconButton onClick={() => handleClick("delete")}>
                     <DeleteIcon color='disabled' sx={{ fontSize: 30 }}/>
                 </IconButton>
             </div>
             <div className='toolbarRight'>
-                <IconButton>
+                <IconButton onClick={() => handleClick("save")}>
                     <SaveIcon color='disabled' sx={{ fontSize: 30 }}/>
                 </IconButton>
-                <IconButton>
+                <IconButton onClick={() => handleClick("load")}>
                     <LoadIcon color='disabled' sx={{ fontSize: 30 }}/>
                 </IconButton>
             </div>
