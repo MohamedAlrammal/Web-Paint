@@ -6,30 +6,36 @@ import RectangleIcon from '@mui/icons-material/RectangleTwoTone';
 import LineIcon from '@mui/icons-material/HorizontalRule';
 import ShapesIcon from '@mui/icons-material/CategoryRounded';
 import TextIcon from '@mui/icons-material/TextFields';
+import { Circle } from 'react-konva';
 
-function Sidebar(){
+function Sidebar(props){
+
+    const handleBrushType = (type) =>{
+        props.setBrushType(type);
+    }
+
     return(
         <div className="sidebar">
             <br></br>
             <ShapesIcon sx={{ fontSize: 45 }}/>
             <p style={{margin: "0", fontFamily: "Arial"}}>Shapes</p>
             <br></br>
-            <IconButton>
+            <IconButton onClick={()=>handleBrushType("Line")}>
                 <LineIcon color='disabled' fontSize="large"/>
             </IconButton>
-            <IconButton>
+            <IconButton onClick={()=>handleBrushType("Circle")}>
                 <CircleIcon color='disabled' fontSize="large"/>
             </IconButton>
-            <IconButton>
+            <IconButton onClick={()=>handleBrushType("Square")}>
                 <SquareIcon color='disabled' fontSize="large"/>
             </IconButton>
-            <IconButton>
+            <IconButton onClick={()=>handleBrushType("Rect")}>
                 <RectangleIcon color='disabled' fontSize="large"/>
             </IconButton>
-            <IconButton>
+            <IconButton onClick={()=>handleBrushType("Triangle")}>
                 <TriangleIcon color='disabled' fontSize="large"/>
             </IconButton>
-            <IconButton>
+            <IconButton onClick={()=>handleBrushType("Text")}>
                 <TextIcon color='disabled' fontSize="large"/>
             </IconButton>
         </div>

@@ -10,16 +10,26 @@ import LoadIcon from '@mui/icons-material/UploadFileTwoTone'
 import CopyIcon from '@mui/icons-material/ContentCopyTwoTone'
 import DeleteIcon from '@mui/icons-material/DeleteTwoTone'
 
-function Toolbar(){
+function Toolbar(props){
+
+    function handleColorChange(e){
+        props.setColor(e.target.value);
+    }
+    function handleStrokeColorChange(e){
+        props.setStrokeColor(e.target.value);
+    }
+
     return(
         <div className="toolbar">
             <div className='toolbarLeft'>
-                <IconButton>
-                    <FillColorIcon sx={{ fontSize: 30 , color: "#f44336"}}/>
-                </IconButton>
-                <IconButton>
-                    <BorderColorIcon sx={{ fontSize: 30 , color: "#2196f3"}}/>
-                </IconButton>
+                <label style={{display: "flex"}}>
+                    <FillColorIcon style={{marginRight: "15px"}} sx={{ fontSize: 27 , color: props.color, stroke: "#B3B3B3", strokeWidth: "2"}}/>
+                    <input type='color' value={props.color} onChange={handleColorChange} style={{display: "none"}}/>
+                </label>
+                <label style={{display: "flex"}}>
+                    <BorderColorIcon style={{marginRight: "7px"}} sx={{ fontSize: 30 , color: props.strokeColor}}/>
+                    <input type='color' value={props.strokeColor} onChange={handleStrokeColorChange} style={{display: "none"}}/>
+                </label>
                 <IconButton>
                     <BorderWidthIcon color='disabled' sx={{ fontSize: 30 }}/>
                 </IconButton>

@@ -47,7 +47,9 @@ span{
 
 .toolbarLeft{
   margin-left: 10px;
+  display: flex;
   flex: 1;
+  align-items: center;
 }
 
 .toolbarRight{
