@@ -10,8 +10,13 @@ import { Circle } from 'react-konva';
 
 function Sidebar(props){
 
-    const handleBrushType = (type) =>{
-        props.setBrushType(type);
+    const handleShapeType = (type) =>{
+        if(type === props.shapeType){
+            props.setShapeType(null);
+        }
+        else{
+            props.setShapeType(type);
+        }
     }
 
     return(
@@ -20,22 +25,22 @@ function Sidebar(props){
             <ShapesIcon sx={{ fontSize: 45 }}/>
             <p style={{margin: "0", fontFamily: "Arial"}}>Shapes</p>
             <br></br>
-            <IconButton onClick={()=>handleBrushType("Line")}>
+            <IconButton onClick={()=>handleShapeType("Line")}>
                 <LineIcon color='disabled' fontSize="large"/>
             </IconButton>
-            <IconButton onClick={()=>handleBrushType("Circle")}>
+            <IconButton onClick={()=>handleShapeType("Circle")}>
                 <CircleIcon color='disabled' fontSize="large"/>
             </IconButton>
-            <IconButton onClick={()=>handleBrushType("Square")}>
+            <IconButton onClick={()=>handleShapeType("square")}>
                 <SquareIcon color='disabled' fontSize="large"/>
             </IconButton>
-            <IconButton onClick={()=>handleBrushType("Rect")}>
+            <IconButton onClick={()=>handleShapeType("Rect")}>
                 <RectangleIcon color='disabled' fontSize="large"/>
             </IconButton>
-            <IconButton onClick={()=>handleBrushType("Triangle")}>
+            <IconButton onClick={()=>handleShapeType("Triangle")}>
                 <TriangleIcon color='disabled' fontSize="large"/>
             </IconButton>
-            <IconButton onClick={()=>handleBrushType("Text")}>
+            <IconButton onClick={()=>handleShapeType("Text")}>
                 <TextIcon color='disabled' fontSize="large"/>
             </IconButton>
         </div>

@@ -6,7 +6,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME,include = JsonTypeInfo.As.PROPERTY,visible = true)
 @JsonSubTypes({
     @JsonSubTypes.Type(value = Circle.class, name = "circle"),
+    @JsonSubTypes.Type(value = Square.class, name = "square"),
     @JsonSubTypes.Type(value = Rectangle.class, name = "rectangle"),
+    //@JsonSubTypes.Type(value = Line.class, name = "line"),
     @JsonSubTypes.Type(value = Triangle.class, name = "triangle"),
     @JsonSubTypes.Type(value = Elipse.class, name = "ellipse")
  
@@ -14,19 +16,26 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonIgnoreProperties(value = "attributes" ,ignoreUnknown = true)
 public abstract class shape implements Cloneable{// clonable 
     private String id;
-    private String name ;
-    private double x ;
-    private double y ;
-    private boolean draggable ;
-    private double scaleofY ;
-    private double scaleofX ;
+    private String name;
+    private double x;
+    private double y;
+    private double rotation;
+    private boolean draggable;
+    private double scaleofY;
+    private double scaleofX;
+    private double stroke;
+    private double strokeWidth;
+
     private String fill;
-    public shape(Shapecreate docreate) {
+    public shape(ShapeDTO docreate) {
         this.x = docreate.x ;
         this.y = docreate.y ;
         this.id = docreate.id ;
         this.fill = docreate.fill ;
         this.name = docreate.name ;
+        this.stroke = docreate.stroke ;
+        this.strokeWidth = docreate.strokeWidth ;
+        this.rotation = docreate.rotation ;
         this.draggable = docreate.draggable ;
         this.scaleofX = docreate.scaleofX ;
         this.scaleofY = docreate.scaleofY ;
@@ -34,16 +43,30 @@ public abstract class shape implements Cloneable{// clonable
     public shape(shape s){ //copy
         this.id = s.id ;
         this.name = s.name ;
-        this.x = s.x ;
-        this.y = s.y ;
+        this.x=s.x+10 ;
+        this.y=s.y+10 ;
         this.draggable = s.draggable ;
         this.scaleofX = s.scaleofX ;
         this.scaleofY = s.scaleofY ;
+        this.stroke = s.stroke ;
+        this.strokeWidth = s.strokeWidth ;
         this.fill = s.fill ;
     }
     public abstract shape clone(String cloneid)throws CloneNotSupportedException;
 
     public shape(){
+    }
+    public double getStroke() {
+        return stroke;
+    }
+    public void setStroke(double stroke) {
+        this.stroke = stroke;
+    }
+    public double getStrokeWidth() {
+        return strokeWidth;
+    }
+    public void setStrokeWidth(double strokeWidth) {
+        this.strokeWidth = strokeWidth;
     }
     public String getId() {
         return id;
@@ -56,6 +79,12 @@ public abstract class shape implements Cloneable{// clonable
     }
     public void setName(String name) {
         this.name = name;
+    }
+    public double getRotation() {
+        return rotation;
+    }
+    public void setRotation(double rotation) {
+        this.rotation = rotation;
     }
     public double getX() {
         return x;

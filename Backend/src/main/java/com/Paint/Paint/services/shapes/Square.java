@@ -7,7 +7,7 @@ public class Square extends shape {
     private double width;
     private double height;
     
-    public Square(Shapecreate docreate) {
+    public Square(ShapeDTO docreate) {
         super(docreate);
         this.width = docreate.width;
         this.height = docreate.height;

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class Circle extends shape {
     private double radius;
     
-    public Circle(Shapecreate rad) {
+    public Circle(ShapeDTO rad) {
         super(rad);
         this.radius = rad.radius;
     }
@@ -17,20 +17,22 @@ public class Circle extends shape {
     }
     public Circle() {
 
-}
+     }
 
     public double getRadius() {
         return radius;
     }
-    public void setRadius(double radius) {
+  public void setRadius(double radius) {
+        if (radius < 0) {
+            throw new IllegalArgumentException("Radius cannot be negative");
+        }
         this.radius = radius;
     }
-  
     @Override
-    public Circle clone(String cloneid) throws CloneNotSupportedException {
-        Circle clonesquare = new Circle(this);
-        clonesquare.setId(cloneid);
-        return clonesquare;
+    public shape clone(String cloneId) throws CloneNotSupportedException {
+        Circle clonedCircle = new Circle(this);
+        clonedCircle.setId(cloneId);
+        return clonedCircle;
     }
-
 }
+

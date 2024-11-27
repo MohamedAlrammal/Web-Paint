@@ -27,7 +27,7 @@ function Toolbar(props){
                     <input type='color' value={props.color} onChange={handleColorChange} style={{display: "none"}}/>
                 </label>
                 <label style={{display: "flex"}}>
-                    <BorderColorIcon style={{marginRight: "7px"}} sx={{ fontSize: 30 , color: props.strokeColor}}/>
+                    <FillColorIcon style={{marginRight: "7px"}} sx={{ fontSize: 27, color: "#B3B3B3", stroke: props.strokeColor, strokeWidth: "2"}}/>
                     <input type='color' value={props.strokeColor} onChange={handleStrokeColorChange} style={{display: "none"}}/>
                 </label>
                 <IconButton>

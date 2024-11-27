@@ -1,7 +1,7 @@
 package com.Paint.Paint.services.shapes;
 
 public class ShapeFactory {
-    public shape createShape(Shapecreate dto) {
+    public shape createShape(ShapeDTO dto) {
         switch (dto.name) {
             case "square":
                 return new Square(dto);

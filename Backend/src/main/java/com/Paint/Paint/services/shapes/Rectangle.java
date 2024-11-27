@@ -5,7 +5,7 @@ public class Rectangle extends shape {
     private double width;
     private double height;
     
-    public Rectangle(Shapecreate l) {
+    public Rectangle(ShapeDTO l) {
         super(l);
         this.width = l.width;
         this.height =l.height;

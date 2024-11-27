@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class Triangle extends shape {
     private double radius;
     private int sides;
-    public Triangle (Shapecreate t){
+    public Triangle (ShapeDTO t){
         super(t);
         this.radius = t.radius ;
         this.sides = t.sides ;
@@ -29,7 +29,7 @@ public class Triangle extends shape {
     }
 
     @Override
-    public Triangle clone(String cloneid) throws CloneNotSupportedException {
+    public shape clone(String cloneid) throws CloneNotSupportedException {
         Triangle clonesquare = new Triangle(this);
         clonesquare.setId(cloneid);
         return clonesquare;

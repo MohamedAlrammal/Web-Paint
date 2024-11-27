@@ -6,13 +6,13 @@ import Toolbar from './Toolbar'
 function Paint(){
     const [shapeType,setShapeType] = useState();
     const [color,setColor] = useState("#00BFFF");
-    const [strokecolor,setStrokeColor] = useState("#00BFFF");
+    const [strokeColor,setStrokeColor] = useState("#00BFFF");
     return(
     <main>
-        <Sidebar setShapeType={setShapeType} />
+        <Sidebar shapeType={shapeType} setShapeType={setShapeType} />
         <div className="container">
-            <Toolbar strokecolor={strokecolor} setStrokeColor={setStrokeColor} color={color} setColor={setColor} />
-            <Paintarea color={color} strokecolor={strokecolor} ShapeType={shapeType}/>
+            <Toolbar strokeColor={strokeColor} setStrokeColor={setStrokeColor} color={color} setColor={setColor} />
+            <Paintarea color={color} strokeColor={strokeColor} shapeType={shapeType}/>
         </div>
       </main>
     )

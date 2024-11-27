@@ -4,19 +4,22 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(value = JsonInclude.Include.NON_DEFAULT) 
-public class Shapecreate {  //  data transfer object (DTO) 
+public class ShapeDTO {  //  data transfer object (DTO) 
     public String id;
-    public String name ;
+    public String name;
     public double x ;
     public double y ;
-    public boolean draggable ;
+    public double rotation;
+    public boolean draggable=true;
     public double scaleofY ;
     public double scaleofX ;
+    public double stroke;
+    public double strokeWidth;
     public String fill;
     public double radiusX; 
     public double radiusY; 
     public double width ; 
     public double height ; 
-    public double radius ;
+    public double radius=0.0 ;
     public int sides;
 }
