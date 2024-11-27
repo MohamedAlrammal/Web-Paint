@@ -10,6 +10,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @JsonSubTypes.Type(value = Rectangle.class, name = "Rect"),
     @JsonSubTypes.Type(value = Line.class, name = "line"),
     @JsonSubTypes.Type(value = Triangle.class, name = "triangle"),
+    @JsonSubTypes.Type(value = Polygon.class, name = "polygon"),
+    @JsonSubTypes.Type(value = Hexagon.class, name = "hexagon"),
     @JsonSubTypes.Type(value = Elipse.class, name = "ellipse")
  
 })
@@ -25,6 +27,8 @@ public abstract class shape implements Cloneable{// clonable
     private double scaleofX;
     private String stroke;
     private double strokeWidth;
+    private double fontFamily;
+    private String text;
 
     private String fill;
     public shape(ShapeDTO docreate) {

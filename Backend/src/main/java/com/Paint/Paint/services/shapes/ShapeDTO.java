@@ -27,4 +27,7 @@ public class ShapeDTO {  //  data transfer object (DTO)
     public ArrayList<Double> points ;
     public double tension;
     public boolean closed = false;
+    public double fontFamily;
+    public String text;
+    public double sidelength;
 }

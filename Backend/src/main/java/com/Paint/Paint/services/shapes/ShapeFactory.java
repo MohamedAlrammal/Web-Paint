@@ -13,6 +13,8 @@ public class ShapeFactory {
                 return new Circle(dto);
             case "triangle":
                 return new Triangle(dto);
+            case "hexagon":
+                return new Hexagon(dto);
             default:
                 throw new IllegalArgumentException("Invalid shape name: " + dto.name);
         }
@@ -29,6 +31,8 @@ public class ShapeFactory {
                 return new Circle((Circle) s);
             case "triangle":
                 return new Triangle((Triangle) s);
+            case "hexagon":
+                return new Hexagon((Hexagon) s);
             default:
                 throw new IllegalArgumentException("Invalid shape type: " + s.getName());
         }
