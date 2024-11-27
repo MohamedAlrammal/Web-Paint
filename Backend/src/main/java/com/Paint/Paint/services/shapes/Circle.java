@@ -2,7 +2,7 @@ package com.Paint.Paint.services.shapes;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-@JsonTypeName("circle")
+@JsonTypeName("Circle")
 public class Circle extends shape {
     private double radius;
     

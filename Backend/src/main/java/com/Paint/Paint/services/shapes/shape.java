@@ -5,9 +5,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME,include = JsonTypeInfo.As.PROPERTY,visible = true)
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = Circle.class, name = "circle"),
+    @JsonSubTypes.Type(value = Circle.class, name = "Circle"),
     @JsonSubTypes.Type(value = Square.class, name = "square"),
-    @JsonSubTypes.Type(value = Rectangle.class, name = "rectangle"),
+    @JsonSubTypes.Type(value = Rectangle.class, name = "Rect"),
     //@JsonSubTypes.Type(value = Line.class, name = "line"),
     @JsonSubTypes.Type(value = Triangle.class, name = "triangle"),
     @JsonSubTypes.Type(value = Elipse.class, name = "ellipse")
@@ -23,7 +23,7 @@ public abstract class shape implements Cloneable{// clonable
     private boolean draggable;
     private double scaleofY;
     private double scaleofX;
-    private double stroke;
+    private String stroke;
     private double strokeWidth;
 
     private String fill;
@@ -56,10 +56,10 @@ public abstract class shape implements Cloneable{// clonable
 
     public shape(){
     }
-    public double getStroke() {
+    public String getStroke() {
         return stroke;
     }
-    public void setStroke(double stroke) {
+    public void setStroke(String stroke) {
         this.stroke = stroke;
     }
     public double getStrokeWidth() {

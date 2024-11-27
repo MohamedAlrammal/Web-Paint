@@ -5,11 +5,11 @@ public class ShapeFactory {
         switch (dto.name) {
             case "square":
                 return new Square(dto);
-            case "rectangle":
+            case "Rect":
                 return new Rectangle(dto);
             case "ellipse":
                 return new Elipse(dto);
-            case "circle":
+            case "Circle":
                 return new Circle(dto);
             case "triangle":
                 return new Triangle(dto);
@@ -21,11 +21,11 @@ public class ShapeFactory {
         switch (s.getName()) {
             case "square":
                 return new Square((Square) s);
-            case "rectangle":
+            case "Rect":
                 return new Rectangle((Rectangle) s);
             case "ellipse":
                 return new Elipse((Elipse) s);
-            case "circle":
+            case "Circle":
                 return new Circle((Circle) s);
             case "triangle":
                 return new Triangle((Triangle) s);
