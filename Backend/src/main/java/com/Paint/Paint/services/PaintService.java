@@ -57,6 +57,14 @@ public class PaintService {
         shapesMap.put(shape.getId(), shape);
         saveState(currentShapes);
     }
+
+    public void addShape(shape shape, boolean flag){
+        List<shape> currentShapes=getcurrentShapes();
+        currentShapes.add(shape);
+        shapesMap.put(shape.getId(), shape);
+        saveState(currentShapes);
+    }
+
     public List<shape> removShapes(String id){
         List<shape> currentShapes=getcurrentShapes();
         shape shapeToRemove=shapesMap.get(id);
@@ -111,7 +119,14 @@ public class PaintService {
             }
         }
         changedmap();
-        saveState(currentshapes);
+    }
+
+    public void endUpdate(boolean endUpdate){
+        List<shape> currentshapes =getcurrentShapes();
+        if(endUpdate) {
+            saveState(currentshapes);
+            System.out.println("ahlaaaaaaan");
+        }
     }
 
     public ShapeDTO updateDTO(ShapeDTO dto, double newX, double newY){

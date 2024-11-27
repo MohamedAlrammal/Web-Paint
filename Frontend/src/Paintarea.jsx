@@ -38,9 +38,9 @@ function Paintarea(props){
     const [selectedNode, setSelectedNode] = useState(null); // Track the currently selected shape
     const transformerRef = useRef(null);
 
-    const createShape = async (response) =>{
-      console.log(response.data);
-      const shape = new Konva[response.data.name](response.data);
+    const createShape = async (data) =>{
+      console.log(data);
+      const shape = new Konva[data.name](data);
       setNewShape(shape);
       layerRef.current.add(shape);
       layerRef.current.draw();
@@ -55,7 +55,7 @@ function Paintarea(props){
             "x": x,
             "y": y
           });
-          createShape(response);
+          createShape(response.data);
           setIsDrawing(true);
         }
       };
@@ -74,8 +74,9 @@ function Paintarea(props){
         layerRef.current.batchDraw();
     };
     
-      const handleMouseUp = () => {
+      const handleMouseUp = async () => {
         if (!isDrawing) return;
+        const response = await axios.put(`http://localhost:8080/paint/endUpdate/${true}`);
         setNewShape(null);
         setNewID(n => (parseInt(n) + 1).toString());
         setIsDrawing(false);
@@ -116,6 +117,31 @@ function Paintarea(props){
         }
         clone();
       }, [props.copy]);
+
+      useEffect(() => {
+        const undo = async () =>{
+            const response = await axios.post(`http://localhost:8080/paint/undo`);
+            layerRef.current.clear();
+            for(let i=0; i<response.data.length ; i++){
+              createShape(response.data[i]);
+            }
+            props.setUndo(false);
+        }
+        const redo = async () =>{
+          const response = await axios.post(`http://localhost:8080/paint/redo`);
+            layerRef.current.clear();
+            for(let i=0; i<response.data.length ; i++){
+              createShape(response.data[i]);
+            }
+            props.setUndo(false);
+        }
+        if(props.undo){
+          undo();
+        }
+        else{
+          redo();
+        }
+      }, [props.undo, props.redo]);
 
       const handleClick = (e) => {
         if(e.target instanceof Konva.Stage){

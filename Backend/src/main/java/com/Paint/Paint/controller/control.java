@@ -37,7 +37,7 @@ public class control {
             System.out.println("arrivee");
             ShapeFactory factory = new ShapeFactory();
             shape obj = factory.createShape(dto);
-            paintService.addShape(obj);
+            paintService.addShape(obj, false);
             return ResponseEntity.ok(obj);
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,6 +71,18 @@ public class control {
               return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
           }
       }
+
+    @PutMapping("/endUpdate/{flag}")
+    public ResponseEntity<Object> endingUpdate(@PathVariable boolean flag) {
+        try {
+            paintService.endUpdate(flag);
+            return ResponseEntity.ok(flag);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
+        }
+    }
+
       @PostMapping("/clone/{idOld}/{idNew}")
       public ResponseEntity<shape> clone(@PathVariable String idOld , @PathVariable String idNew ){
           System.out.println("clone");

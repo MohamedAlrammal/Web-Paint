@@ -38,7 +38,9 @@ function Paint(){
                        copy={copy}
                        setCopy={setCopy} 
                        redo={redo} 
-                       undo={undo} 
+                       undo={undo}
+                       setRedo={setRedo} 
+                       setUndo={setUndo}
                        opactity={opactity} 
                        strokeWidth={strokeWidth} 
                        color={color} 
