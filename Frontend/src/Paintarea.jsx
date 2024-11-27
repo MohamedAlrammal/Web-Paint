@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { Stage, Layer, Transformer, Rect, Text, Circle, Line } from 'react-konva';
 import axios from "axios";
-import { Alert } from '@mui/material';
 
 function Paintarea(props){
     const [stageSize, setStageSize] = useState({width:1450,height:545});
@@ -33,31 +32,31 @@ function Paintarea(props){
         };
       }, []);
 
-    const [shapes, setShapes] = useState([]);
     const [isDrawing, setIsDrawing] = useState(false);
     const [newShape, setNewShape] = useState(null);
     const layerRef = useRef(null);
     const [selectedNode, setSelectedNode] = useState(null); // Track the currently selected shape
     const transformerRef = useRef(null);
+
+    const createShape = async (response) =>{
+      console.log(response.data);
+      const shape = new Konva[response.data.name](response.data);
+      setNewShape(shape);
+      layerRef.current.add(shape);
+      layerRef.current.draw();
+    }
     
       const handleMouseDown = async (e) => {
         if(props.shapeType != null){
           const { x, y } = e.target.getStage().getPointerPosition();
-          console.log(layerRef);
-          console.log(props.shapeType);
-          console.log(typeof(props.shapeType));
           const response = await axios.post("http://localhost:8080/paint/create", {
             "name": props.shapeType,
             "id" : newID,
             "x": x,
             "y": y
           });
-          console.log(response.data);
-          const shape = new Konva[response.data.name](response.data);
-        setNewShape(shape);
-        layerRef.current.add(shape);
-        layerRef.current.draw();
-        setIsDrawing(true);
+          createShape(response);
+          setIsDrawing(true);
         }
       };
     
@@ -81,6 +80,7 @@ function Paintarea(props){
         setNewID(n => (parseInt(n) + 1).toString());
         setIsDrawing(false);
       };
+
       useEffect(() => {
         if (selectedNode) {
             transformerRef.current.nodes([selectedNode]);
@@ -104,14 +104,28 @@ function Paintarea(props){
         }
       }, [props.strokeColor]);
 
+      useEffect(() => {
+        const clone = async () =>{
+          console.log(selectedNode);
+          if (selectedNode != null && props.copy) {
+            const response = await axios.post(`http://localhost:8080/paint/clone/${selectedNode.attrs.id}/${newID}`);
+            createShape(response);
+            props.setCopy(false);
+            setSelectedNode(null);
+          }
+        }
+        clone();
+      }, [props.copy]);
+
       const handleClick = (e) => {
         if(e.target instanceof Konva.Stage){
           setSelectedNode(null);
         }
         else{
           setSelectedNode(e.target);
-        } 
+        }
       };
+
     return(
         <div id="paintarea">
             <Stage width={stageSize.width} height={stageSize.height}

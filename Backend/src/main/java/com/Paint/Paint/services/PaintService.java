@@ -110,6 +110,8 @@ public class PaintService {
                 break;
             }
         }
+        changedmap();
+        saveState(currentshapes);
     }
 
     public ShapeDTO updateDTO(ShapeDTO dto, double newX, double newY){

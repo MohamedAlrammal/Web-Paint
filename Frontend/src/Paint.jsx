@@ -35,7 +35,8 @@ function Paint(){
             <Paintarea load={load}
                        save={save} 
                        del={del} 
-                       copy={copy} 
+                       copy={copy}
+                       setCopy={setCopy} 
                        redo={redo} 
                        undo={undo} 
                        opactity={opactity} 
