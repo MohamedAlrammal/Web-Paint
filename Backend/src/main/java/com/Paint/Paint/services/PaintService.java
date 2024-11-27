@@ -158,7 +158,7 @@ public class PaintService {
     public void savejson(String path)throws IOException {
         Savefiles savefiles = new Savefiles();
         savefiles.setShapetosaved(getcurrentShapes());
-        savefiles.json(path);
+        savefiles.savejson(path);
     }
     public Savefiles loadfromjson(String path) throws IOException {
         Savefiles loadfiles = new Savefiles();

@@ -34,7 +34,7 @@ public class Savefiles {
             return (Savefiles) decoder.readObject();
         }
     }
-    public void json(String path) throws IOException{
+    public void savejson(String path) throws IOException{
         //save to json file
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -44,8 +44,7 @@ public class Savefiles {
             e.printStackTrace();
         }
     }
-    
-    public static Savefiles fromJson(String path) throws IOException{
+    public static Savefiles savefromJson(String path) throws IOException{
         //load from json file
         try {
         ObjectMapper mapper = new ObjectMapper();
