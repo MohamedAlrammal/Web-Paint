@@ -6,6 +6,7 @@ import RectangleIcon from '@mui/icons-material/RectangleTwoTone';
 import LineIcon from '@mui/icons-material/HorizontalRule';
 import ShapesIcon from '@mui/icons-material/CategoryRounded';
 import TextIcon from '@mui/icons-material/TextFields';
+import HexagonIcon from '@mui/icons-material/HexagonTwoTone';
 import { useState } from 'react';
 
 function Sidebar(props){
@@ -47,6 +48,10 @@ function Sidebar(props){
             <IconButton title='Triangle' onClick={(e)=>handleShapeType("triangle",e)}
                         sx={{ backgroundColor: activeShape === 'triangle' ? '#e0e0e0' : 'transparent' }}>
                 <TriangleIcon color='disabled' fontSize="large"/>
+            </IconButton>
+            <IconButton title='Hexagon' onClick={(e)=>handleShapeType("hexagon",e)}
+                        sx={{ backgroundColor: activeShape === 'hexagon' ? '#e0e0e0' : 'transparent' }}>
+                <HexagonIcon color='disabled' fontSize="large"/>
             </IconButton>
             <IconButton title='Text' onClick={(e)=>handleShapeType("Text",e)}
                         sx={{ backgroundColor: activeShape === 'Text' ? '#e0e0e0' : 'transparent' }}>
