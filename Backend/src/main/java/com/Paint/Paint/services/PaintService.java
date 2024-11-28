@@ -86,27 +86,27 @@ public class PaintService {
     public void clearAllshapes() {
         saveState(new ArrayList<>());
     }
-    public List<shape> redo(){
-        if(!redo.isEmpty()){
-            allshapes.push(redo.peek());
-            undo.push(redo.pop());
-            changedmap();
-            return undo.peek();
+    public List<shape> redo() {
+        if (redo.isEmpty()) {
+            System.out.println("Redo stack is empty");
+            return null;
         }
-        printShapeStack();
+        allshapes.push(redo.peek());
+        undo.push(redo.pop());
         changedmap();
+        printShapeStack();
         return undo.peek();
-
     }
-    public List<shape> undo(){
-        if(!allshapes.isEmpty()){
-            redo.push(undo.pop());
-            allshapes.pop();
-            changedmap();
-            printShapeStack();
-            return undo.peek();
+    public List<shape> undo() {
+        if (undo.isEmpty()) {
+            System.out.println("Undo empty");
+            return null;
         }
-        return new ArrayList<shape>();
+        redo.push(undo.pop());
+        allshapes.pop();
+        changedmap();
+        printShapeStack();
+        return undo.isEmpty() ? new ArrayList<>() : undo.peek(); // Return the last state or an empty list
     }
     public void printShapeStack() {
         System.out.println("Printing all shapes ");

@@ -158,9 +158,9 @@ function Paintarea(props){
       useEffect(() => {
         const undo = async () => {
             const response = await axios.post(`http://localhost:8080/paint/undo`);
-            if(response.data == null){return}
             layerRef.current.destroyChildren();
             layerRef.current.draw();
+            if(response.data == ""){return;}
             response.data.forEach(shapeData => {
               console.log(shapeData);
               createShape(shapeData);
@@ -169,7 +169,7 @@ function Paintarea(props){
 
         const redo = async () => {
             const response = await axios.post(`http://localhost:8080/paint/redo`);
-            if(response.data == null){return}
+            if(response.data == ""){return;}
             layerRef.current.destroyChildren();
             layerRef.current.draw();
             response.data.forEach(shapeData => {
