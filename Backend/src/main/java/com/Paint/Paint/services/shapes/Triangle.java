@@ -1,33 +1,47 @@
 package com.Paint.Paint.services.shapes;
+
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName("triangle")
 public class Triangle extends shape {
     private double radius;
+    private final String Konvaname = "RegularPolygon";
     private final int sides = 3;
-    public Triangle (ShapeDTO t){
-        super(t);
-        this.radius = t.radius ;
+
+    public Triangle() {
+        super();
     }
-    public Triangle(Triangle t){
+
+    public Triangle(ShapeDTO t) {
         super(t);
-        this.radius = t.radius ;
+        this.radius = t.radius;
     }
+
+    public String getKonvaname() {
+        return Konvaname;
+    }
+
+    public Triangle(Triangle t) {
+        super(t);
+        this.radius = t.radius;
+    }
+
     public double getRadius() {
         return radius;
     }
+
     public void setRadius(double radius) {
         this.radius = radius;
     }
+
     public int getSides() {
         return sides;
     }
 
     @Override
     public shape clone(String cloneid) throws CloneNotSupportedException {
-        Triangle clonesquare = new Triangle(this);
-        clonesquare.setId(cloneid);
-        return clonesquare;
+        Triangle clonedTriangle = new Triangle(this);
+        clonedTriangle.setId(cloneid);
+        return clonedTriangle;
     }
 }
- 

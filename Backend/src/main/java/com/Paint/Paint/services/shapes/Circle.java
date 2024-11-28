@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Circle")
 public class Circle extends shape {
     private double radius;
+    private final String Konvaname = "Circle";
     
     public Circle(ShapeDTO rad) {
         super(rad);
@@ -18,7 +19,10 @@ public class Circle extends shape {
     public Circle() {
 
      }
-
+     public String getKonvaname(){
+        return Konvaname;
+     }
+     
     public double getRadius() {
         return radius;
     }

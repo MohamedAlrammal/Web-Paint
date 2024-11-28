@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class Rectangle extends shape {
     private double width;
     private double height;
+    private final String Konvaname = "Rect";
     
     public Rectangle(ShapeDTO l) {
         super(l);
@@ -19,6 +20,9 @@ public class Rectangle extends shape {
     public double getWidth() {
         return width;
     }
+    public String getKonvaname(){
+        return Konvaname;
+     }
     public double getHeight() {
         return height;
     } 

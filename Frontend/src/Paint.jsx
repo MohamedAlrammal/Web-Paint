@@ -16,6 +16,7 @@ function Paint(){
     const [clear,setClear] = useState(false);
     const [save,setSave] = useState(false);
     const [load,setLoad] = useState(false);
+    const [update,setUpdate] = useState(false);
 
     return(
     <main>
@@ -32,7 +33,8 @@ function Paint(){
                      strokeColor={strokeColor} 
                      setStrokeColor={setStrokeColor} 
                      color={color} setColor={setColor} 
-                     setStrokeWidth={setStrokeWidth}/>
+                     setStrokeWidth={setStrokeWidth}
+                     setUpdate={setUpdate}/>
                      
             <Paintarea load={load}
                        save={save} 
@@ -52,7 +54,9 @@ function Paint(){
                        strokeWidth={strokeWidth} 
                        color={color} 
                        strokeColor={strokeColor} 
-                       shapeType={shapeType}/>
+                       shapeType={shapeType}
+                       update={update}
+                       setUpdate={setUpdate}/>
         </div>
       </main>
     )

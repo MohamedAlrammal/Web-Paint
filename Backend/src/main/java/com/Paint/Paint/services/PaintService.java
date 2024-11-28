@@ -1,13 +1,17 @@
 package com.Paint.Paint.services;
 
+import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Stack;
 
-import com.Paint.Paint.services.shapes.ShapeDTO;
-import com.Paint.Paint.services.shapes.ShapeFactory;
 import org.springframework.stereotype.Service;
 
+import com.Paint.Paint.services.shapes.ShapeDTO;
 import com.Paint.Paint.services.shapes.shape;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
 
@@ -35,6 +39,10 @@ public class PaintService {
         }
         return new ArrayList<>();
     }
+    private List<shape> getShapes(){
+        if(undo.isEmpty()){return null;}
+        return undo.peek();
+}
     private void saveState(List<shape> shapes){
         allshapes.push(new ArrayList<>(shapes));
         redo.clear();
@@ -59,6 +67,7 @@ public class PaintService {
         saveState(currentShapes);
         undo.push(currentShapes);
         printShapeStack();
+        printShapeStackallshapes();
     }
 
     public void addShape(shape shape, boolean flag){
@@ -67,6 +76,7 @@ public class PaintService {
         shapesMap.put(shape.getId(), shape);
         saveState(currentShapes);
         printShapeStack();
+        printShapeStackallshapes();
     }
 
     public List<shape> removShapes(String id){
@@ -89,33 +99,46 @@ public class PaintService {
     public List<shape> redo() {
         if (redo.isEmpty()) {
             System.out.println("Redo stack is empty");
-            return null;
+            return getcurrentShapes(); 
         }
         allshapes.push(redo.peek());
         undo.push(redo.pop());
         changedmap();
         printShapeStack();
+        printShapeStackallshapes();
         return undo.peek();
     }
     public List<shape> undo() {
         if (undo.isEmpty()) {
             System.out.println("Undo empty");
-            return null;
+            return getcurrentShapes();
         }
         redo.push(undo.pop());
         allshapes.pop();
         changedmap();
         printShapeStack();
-        return undo.isEmpty() ? new ArrayList<>() : undo.peek(); // Return the last state or an empty list
+        printShapeStackallshapes();
+        return undo.isEmpty() ? new ArrayList<>() : undo.peek(); // Return the last state or an empty list
     }
     public void printShapeStack() {
-        System.out.println("Printing all shapes ");
+        System.out.println("Printing all shapes in undo stack ");
         for (List<shape> shapes : undo) {
             System.out.println("Element no:");
             for (shape shape : shapes) {
                 System.out.println(shape.toString());
             }
         }
+        System.out.println("---------------------------------------------------------");
+    }
+    public void printShapeStackallshapes() {
+        System.out.println("Printing all shapes in allshapes stack ");
+        for (List<shape> shapes : undo) {
+            System.out.println("Element no:");
+            for (shape shape : shapes) {
+                System.out.println(shape.toString());
+            }  
+        }
+        System.out.println("---------------------------------------------------------");
     }
     public void updateshape(shape updated , boolean flag){
         List<shape> currentshapes =getcurrentShapes();
@@ -133,6 +156,7 @@ public class PaintService {
         }
         saveState(currentshapes);
         printShapeStack();
+        printShapeStackallshapes();
     }
 
     public void endUpdate(boolean endUpdate){
@@ -143,6 +167,7 @@ public class PaintService {
             System.out.println("ahlaaaaaaan");
         }
         printShapeStack();
+        printShapeStackallshapes();
     }
 
     public ShapeDTO updateDTO(ShapeDTO dto, double newX, double newY){
@@ -194,18 +219,21 @@ public class PaintService {
         savefiles.savejson(path);
     }
     public Savefiles loadfromjson(String path) throws IOException {
-        Savefiles loadfiles = new Savefiles();
-        if (loadfiles!=null) {
-            List<shape> currShapes =getcurrentShapes();
-            currShapes.addAll(loadfiles.getShapetosaved());
-            saveState(currShapes);
-            changedmap();
-            return loadfiles;
-        }
-        else{
-            return null;
-        }
+    ObjectMapper objectMapper = new ObjectMapper();
+    Savefiles loadfiles = objectMapper.readValue(new File(path), Savefiles.class);
+    if (loadfiles != null) {
+        System.out.println("Loaded JSON Content:");
+        System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(loadfiles));
+        List<shape> currShapes = getcurrentShapes();
+        currShapes.addAll(loadfiles.getShapetosaved());
+        saveState(currShapes);
+        changedmap();
+        return loadfiles;
+    } else {
+        System.out.println("No content found in the JSON file.");
+        return null;
     }
+}
     public String savechoice(String path) throws IOException {
         if (path.endsWith("json")) {
             savejson(path);
@@ -228,5 +256,4 @@ public class PaintService {
             return null;
         }
     }
-
 }

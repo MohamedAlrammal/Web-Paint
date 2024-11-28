@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeName("Line")
 public class Line extends shape{
     private ArrayList<Double> points;
+    private final String Konvaname = "Line";
     private double tension ;
     public Line (ShapeDTO l) {
         super(l);
@@ -18,6 +19,9 @@ public class Line extends shape{
         super(l);
         this.points = l.points ;
     }
+    public String getKonvaname(){
+        return Konvaname;
+     }
     public ArrayList<Double> getPoints() {
         return points;
     }

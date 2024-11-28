@@ -4,22 +4,16 @@ public class ShapeFactory {
     public shape createShape(ShapeDTO dto) {
         switch (dto.name) {
             case "square":
-                dto.Konvaname="Rect";
                 return new Square(dto);
             case "Rect":
-                dto.Konvaname="Rect";
                 return new Rectangle(dto);
             case "ellipse":
-                dto.Konvaname="Elipse"; 
                 return new Elipse(dto);
             case "Circle":
-                dto.Konvaname="Circle";
                 return new Circle(dto);
             case "triangle":
-                dto.Konvaname="RegularPolygon";
                 return new Triangle(dto);
             case "hexagon":
-              dto.Konvaname="RegularPolygon";
               return new Hexagon(dto);
             default:
                 throw new IllegalArgumentException("Invalid shape name: " + dto.name);

@@ -90,16 +90,19 @@ function Paintarea(props){
       }, [selectedNode]);
 
       useEffect(() => {
-        console.log(selectedNode);
         if (selectedNode != null) {
-            axios.put(`http://localhost:8080/paint/update`,{
-              "name": selectedNode.name,
-              "id": selectedNode.id,
-              "fill": props.color
+            if(props.update == true){
+              axios.put(`http://localhost:8080/paint/update`,{
+                "name": selectedNode.name,
+                "id": selectedNode.id,
+                "fill": props.color
             });
+            console.log("send update");
+            }
             selectedNode.fill(props.color);
             layerRef.current.batchDraw();
         }
+        props.setUpdate(false);
       }, [props.color]);
 
       useEffect(() => {
@@ -107,14 +110,17 @@ function Paintarea(props){
         console.log(props.strokeColor);
         console.log(typeof(props.strokeColor));
         if (selectedNode != null) {
-            axios.put(`http://localhost:8080/paint/update`,{
-              "name": selectedNode.name(),
-              "id": selectedNode.id(),
-              "stroke": props.strokeColor
-            });
+            if(props.update == true){
+              axios.put(`http://localhost:8080/paint/update`,{
+                "name": selectedNode.name(),
+                "id": selectedNode.id(),
+                "stroke": props.strokeColor
+              });
+            }
             selectedNode.stroke(props.strokeColor);
             layerRef.current.batchDraw();
         }
+        props.setUpdate(false);
       }, [props.strokeColor]);
 
       useEffect(() => {
@@ -255,7 +261,8 @@ function Paintarea(props){
             const response = await axios.post(`http://localhost:8080/paint/load?path=${path.replaceAll("\\", "/")}`);
             layerRef.current.destroyChildren();
             layerRef.current.draw();
-            response.data.forEach(shapeData => {
+            console.log(response);
+            response.data.shapetosaved.forEach(shapeData => {
               console.log(shapeData);
               createShape(shapeData);
             });

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class Elipse extends shape {
     private double radiusX;
     private double radiusY;
+    private final String Konvaname = "Elipse";
     public Elipse(ShapeDTO e) {
         super(e);
         this.radiusX = e.radiusX;
@@ -17,7 +18,9 @@ public class Elipse extends shape {
     public double getRadiusX() {
         return radiusX;
     }
-
+    public String getKonvaname(){
+        return Konvaname;
+     }
     public double getRadiusY() {
         return radiusY;
     }

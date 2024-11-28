@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 public class Square extends shape {
     private double width;
     private double height;
-    private String Konvaname;
+    private final String Konvaname = "Rect";
 
  
     public Square(ShapeDTO docreate) {
@@ -20,6 +20,9 @@ public class Square extends shape {
         this.width = s.width;
         this.height = s.height;
     }
+    public String getKonvaname(){
+        return Konvaname;
+     }
     
     public Square() {}
     
