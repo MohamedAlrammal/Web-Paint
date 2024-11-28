@@ -8,6 +8,7 @@ import SaveIcon from '@mui/icons-material/SaveTwoTone'
 import LoadIcon from '@mui/icons-material/UploadFileTwoTone'
 import CopyIcon from '@mui/icons-material/ContentCopyTwoTone'
 import DeleteIcon from '@mui/icons-material/DeleteTwoTone'
+import ClearIcon from '@mui/icons-material/LayersClearTwoTone'
 
 function Toolbar(props){
 
@@ -30,6 +31,9 @@ function Toolbar(props){
                 break;
             case "delete":
                 props.setDel(true);
+                break;
+            case "clear":
+                props.setClear(true);
                 break;
             case "save":
                 props.setSave(true);
@@ -68,6 +72,9 @@ function Toolbar(props){
                 </IconButton>
                 <IconButton onClick={() => handleClick("delete")}>
                     <DeleteIcon color='disabled' sx={{ fontSize: 30 }}/>
+                </IconButton>
+                <IconButton onClick={() => handleClick("clear")}>
+                    <ClearIcon color='disabled' sx={{ fontSize: 30 }}/>
                 </IconButton>
             </div>
             <div className='toolbarRight'>

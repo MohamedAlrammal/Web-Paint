@@ -136,6 +136,7 @@ public class control {
     @PostMapping("/save")
     public ResponseEntity<String> save(@RequestParam String path){
         try{
+            System.out.println("hnnaaaaaaa");
             return ResponseEntity.ok(paintService.savechoice(path));
         }
         catch(Exception e){

@@ -138,10 +138,22 @@ function Paintarea(props){
             selectedNode.remove();
             setSelectedNode(null);
           }
+        }
+        const clear = () =>{
+            layerRef.current.destroyChildren();
+            layerRef.current.draw();
+            axios.delete(`http://localhost:8080/paint/clearAll`);
+        }
+        if(props.del){
+          del();
           props.setDel(false);
         }
-        del();
-      }, [props.del]);
+        else if(props.clear){
+          clear();
+          props.setClear(false);
+        }
+        
+      }, [props.del,props.clear]);
 
       useEffect(() => {
         const undo = async () => {
@@ -229,7 +241,7 @@ function Paintarea(props){
           const path = window.prompt("Enter The Saving Location:");
           console.log(path);
           if(path != null){
-            axios.post(`http://localhost:8080/paint/save?path=${path}`);
+            axios.post(`http://localhost:8080/paint/save?path=${path.replaceAll("\\", "/")}`);
             setSaved(true);
           }
         }
@@ -238,7 +250,13 @@ function Paintarea(props){
           const path = window.prompt("Enter The File Path:");
           console.log(path);
           if(path != null){
-            axios.post(`http://localhost:8080/paint/load?path=${path}`);
+            const response = await axios.post(`http://localhost:8080/paint/load?path=${path.replaceAll("\\", "/")}`);
+            layerRef.current.destroyChildren();
+            layerRef.current.draw();
+            response.data.forEach(shapeData => {
+              console.log(shapeData);
+              createShape(shapeData);
+            });
             setSaved(true);
           }
         }

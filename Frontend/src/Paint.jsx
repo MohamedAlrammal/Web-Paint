@@ -13,6 +13,7 @@ function Paint(){
     const [redo,setRedo] = useState(false);
     const [copy,setCopy] = useState(false);
     const [del,setDel] = useState(false);
+    const [clear,setClear] = useState(false);
     const [save,setSave] = useState(false);
     const [load,setLoad] = useState(false);
 
@@ -23,6 +24,7 @@ function Paint(){
             <Toolbar setLoad={setLoad} 
                      setSave={setSave} 
                      setDel={setDel} 
+                     setClear={setClear}
                      setCopy={setCopy} 
                      setRedo={setRedo} 
                      setUndo={setUndo} 
@@ -35,9 +37,11 @@ function Paint(){
             <Paintarea load={load}
                        save={save} 
                        del={del} 
+                       clear={clear}
                        setLoad={setLoad} 
                        setSave={setSave} 
                        setDel={setDel}
+                       setClear={setClear}
                        copy={copy}
                        setCopy={setCopy} 
                        redo={redo} 
