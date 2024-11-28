@@ -40,7 +40,7 @@ function Paintarea(props){
 
     const createShape = async (data) =>{
       console.log(data);
-      const shape = new Konva[data.name](data);
+      const shape = new Konva[data.konvaname](data);
       setNewShape(shape);
       layerRef.current.add(shape);
       layerRef.current.draw();
@@ -158,6 +158,7 @@ function Paintarea(props){
       useEffect(() => {
         const undo = async () => {
             const response = await axios.post(`http://localhost:8080/paint/undo`);
+            if(response.data == null){return}
             layerRef.current.destroyChildren();
             layerRef.current.draw();
             response.data.forEach(shapeData => {
@@ -168,6 +169,7 @@ function Paintarea(props){
 
         const redo = async () => {
             const response = await axios.post(`http://localhost:8080/paint/redo`);
+            if(response.data == null){return}
             layerRef.current.destroyChildren();
             layerRef.current.draw();
             response.data.forEach(shapeData => {
