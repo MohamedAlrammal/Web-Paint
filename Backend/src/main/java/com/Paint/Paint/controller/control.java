@@ -28,7 +28,7 @@ import com.Paint.Paint.services.shapes.shape;
 @RequestMapping("/paint")
 public class control {
 
-    @Autowired 
+    @Autowired
     public  PaintService paintService;
 
     @PostMapping("/create")
@@ -37,13 +37,13 @@ public class control {
             System.out.println("arrivee");
             ShapeFactory factory = new ShapeFactory();
             shape obj = factory.createShape(dto);
-            paintService.addShape(obj, false);
+            paintService.addShape(obj, true);
             return ResponseEntity.ok(obj);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
         }
-      }
+    }
 
     @PutMapping("/createupdate/{newX}/{newY}")
     public ResponseEntity<Object> createUpdate(@RequestBody ShapeDTO dto , @PathVariable double newX, @PathVariable double newY) {
@@ -51,26 +51,13 @@ public class control {
             ShapeFactory factory = new ShapeFactory();
             dto = paintService.updateDTO(dto, newX, newY);
             shape updatedShape = factory.createShape(dto);
-            paintService.updateshape(updatedShape);
+            paintService.updateshape(updatedShape, false);
             return ResponseEntity.ok(updatedShape);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
         }
     }
-
-      @PutMapping("/update")
-      public ResponseEntity<Object> updateShape(@RequestBody ShapeDTO dto) {
-          try {
-              ShapeFactory factory = new ShapeFactory();
-              shape updatedShape = factory.createShape(dto);
-              paintService.updateshape(updatedShape);
-              return ResponseEntity.ok(updatedShape);
-          } catch (Exception e) {
-              e.printStackTrace();
-              return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
-          }
-      }
 
     @PutMapping("/endUpdate/{flag}")
     public ResponseEntity<Object> endingUpdate(@PathVariable boolean flag) {
@@ -83,32 +70,44 @@ public class control {
         }
     }
 
-      @PostMapping("/clone/{idOld}/{idNew}")
-      public ResponseEntity<shape> clone(@PathVariable String idOld , @PathVariable String idNew ){
-          System.out.println("clone");
-          try {
+    @PutMapping("/update")
+    public ResponseEntity<Object> updateShape(@RequestBody ShapeDTO dto) {
+        try {
+            ShapeFactory factory = new ShapeFactory();
+            shape updatedShape = factory.createShape(dto);
+            paintService.updateshape(updatedShape,true);
+            return ResponseEntity.ok(updatedShape);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
+        }
+    }
+    @PostMapping("/clone/{idOld}/{idNew}")
+    public ResponseEntity<shape> clone(@PathVariable String idOld , @PathVariable String idNew ){
+        System.out.println("clone");
+        try {
             System.out.println("cloned");
-              shape s = paintService.getShapeById(idOld).clone(idNew);
-              paintService.addShape(s);
-              return ResponseEntity.ok(s);
-          } catch (Exception e) {
-              e.printStackTrace();
-              return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-          }
-      }
-      @DeleteMapping("/clearAll")
-      public ResponseEntity<List<shape>> clearAll() {
+            shape s = paintService.getShapeById(idOld).clone(idNew);
+            paintService.addShape(s);
+            return ResponseEntity.ok(s);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    @DeleteMapping("/clearAll")
+    public ResponseEntity<List<shape>> clearAll() {
         try {
             return ResponseEntity.ok(paintService.clearAll());
         }catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
-      }
-      @DeleteMapping("/remove/{shapeId}")
-      public ResponseEntity<List<shape>> removeShape(@PathVariable String shapeId) {
+    }
+    @DeleteMapping("/remove/{shapeId}")
+    public ResponseEntity<List<shape>> removeShape(@PathVariable String shapeId) {
         try {
-           return ResponseEntity.ok(paintService.removShapes(shapeId));
+            return ResponseEntity.ok(paintService.removShapes(shapeId));
         }catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -134,33 +133,33 @@ public class control {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-        @PostMapping("/save")
-        public ResponseEntity<String> save(@RequestParam String path){
-             try{
-                return ResponseEntity.ok(paintService.savechoice(path));
-             }
-             catch(Exception e){
-                 e.printStackTrace();
-                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
-             }
+    @PostMapping("/save")
+    public ResponseEntity<String> save(@RequestParam String path){
+        try{
+            return ResponseEntity.ok(paintService.savechoice(path));
         }
-        @PostMapping("/load")
-        public ResponseEntity<Savefiles> load(@RequestParam String path){
-             try{
-                return ResponseEntity.ok(paintService.loadfiles(path));
-             }
-             catch(Exception e){
-                 e.printStackTrace();
-                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-             }
+        catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
         }
-        
+    }
+    @PostMapping("/load")
+    public ResponseEntity<Savefiles> load(@RequestParam String path){
+        try{
+            return ResponseEntity.ok(paintService.loadfiles(path));
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
     //@PostMapping("/crete")
     @RequestMapping("/hi")
     public String hello() {
         return "hello";
     }
-    
 
-    
+
+
 }

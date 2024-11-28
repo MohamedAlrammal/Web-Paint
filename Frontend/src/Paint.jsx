@@ -35,6 +35,9 @@ function Paint(){
             <Paintarea load={load}
                        save={save} 
                        del={del} 
+                       setLoad={setLoad} 
+                       setSave={setSave} 
+                       setDel={setDel}
                        copy={copy}
                        setCopy={setCopy} 
                        redo={redo} 

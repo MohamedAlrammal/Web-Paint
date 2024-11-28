@@ -14,11 +14,11 @@ import com.Paint.Paint.services.shapes.shape;
 public class PaintService {
 
     private static PaintService paintService =null;
-    
+
     private PaintService() {
         // Private constructor to prevent instantiation from outside
     }
-    
+
     public static PaintService getInstance(){
         if(paintService == null){
             paintService = new PaintService();
@@ -26,6 +26,7 @@ public class PaintService {
         return paintService;
     }
     private Stack<List<shape>> allshapes=new Stack<>();
+    private Stack<List<shape>> undo=new Stack<>();
     private Stack<List<shape>> redo=new Stack<>();
     private HashMap<String,shape> shapesMap=new HashMap<>();
     private List<shape> getcurrentShapes(){
@@ -47,15 +48,17 @@ public class PaintService {
     }
     public List<shape> clearAll() {
         List<shape> currShapes = new ArrayList<>();
-        saveState(currShapes); 
-        shapesMap.clear();  
-        return currShapes;   
+        saveState(currShapes);
+        shapesMap.clear();
+        return currShapes;
     }
     public void addShape(shape shape){
         List<shape> currentShapes=getcurrentShapes();
         currentShapes.add(shape);
         shapesMap.put(shape.getId(), shape);
         saveState(currentShapes);
+        undo.push(currentShapes);
+        printShapeStack();
     }
 
     public void addShape(shape shape, boolean flag){
@@ -63,6 +66,7 @@ public class PaintService {
         currentShapes.add(shape);
         shapesMap.put(shape.getId(), shape);
         saveState(currentShapes);
+        printShapeStack();
     }
 
     public List<shape> removShapes(String id){
@@ -73,6 +77,7 @@ public class PaintService {
             shapesMap.remove(id);
         }
         saveState(currentShapes);
+        undo.push(currentShapes);
         return currentShapes;
     }
     public  shape getShapeById(String shapeId) {
@@ -83,32 +88,36 @@ public class PaintService {
     }
     public List<shape> redo(){
         if(!redo.isEmpty()){
-            allshapes.push(redo.pop());
+            allshapes.push(redo.peek());
+            undo.push(redo.pop());
             changedmap();
-            return getcurrentShapes();
-    }
-    changedmap();
-    return getcurrentShapes();
-    
+            return undo.peek();
+        }
+        printShapeStack();
+        changedmap();
+        return undo.peek();
+
     }
     public List<shape> undo(){
         if(!allshapes.isEmpty()){
-            redo.push(allshapes.pop());
+            redo.push(undo.pop());
+            allshapes.pop();
             changedmap();
-            return getcurrentShapes();
+            printShapeStack();
+            return undo.peek();
         }
         return new ArrayList<shape>();
     }
     public void printShapeStack() {
         System.out.println("Printing all shapes ");
-        for (List<shape> shapes : allshapes) {
+        for (List<shape> shapes : undo) {
             System.out.println("Element no:");
             for (shape shape : shapes) {
                 System.out.println(shape.toString());
             }
         }
     }
-    public void updateshape(shape updated){
+    public void updateshape(shape updated , boolean flag){
         List<shape> currentshapes =getcurrentShapes();
         for(int i=0;i<currentshapes.size();i++){
             shape shape = currentshapes.get(i);
@@ -119,14 +128,21 @@ public class PaintService {
             }
         }
         changedmap();
+        if(flag){
+            undo.push(currentshapes);
+        }
+        saveState(currentshapes);
+        printShapeStack();
     }
 
     public void endUpdate(boolean endUpdate){
         List<shape> currentshapes =getcurrentShapes();
         if(endUpdate) {
             saveState(currentshapes);
+            undo.push(currentshapes);
             System.out.println("ahlaaaaaaan");
         }
+        printShapeStack();
     }
 
     public ShapeDTO updateDTO(ShapeDTO dto, double newX, double newY){
@@ -200,17 +216,17 @@ public class PaintService {
         }
         else{
             return null;
-        }  
+        }
     }
-public Savefiles loadfiles(String path) throws IOException{
-    if (path.endsWith("json")) {
-        return loadfromjson(path);
-    } else if (path.endsWith("xml")){
-        return loadfromxml(path);
+    public Savefiles loadfiles(String path) throws IOException{
+        if (path.endsWith("json")) {
+            return loadfromjson(path);
+        } else if (path.endsWith("xml")){
+            return loadfromxml(path);
+        }
+        else{
+            return null;
+        }
     }
-    else{
-        return null;
-    }
-}
 
 }

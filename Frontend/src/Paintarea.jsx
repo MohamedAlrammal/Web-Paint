@@ -76,7 +76,7 @@ function Paintarea(props){
     
       const handleMouseUp = async () => {
         if (!isDrawing) return;
-        const response = await axios.put(`http://localhost:8080/paint/endUpdate/${true}`);
+        await axios.put(`http://localhost:8080/paint/endUpdate/${true}`);
         setNewShape(null);
         setNewID(n => (parseInt(n) + 1).toString());
         setIsDrawing(false);
@@ -110,13 +110,26 @@ function Paintarea(props){
           console.log(selectedNode);
           if (selectedNode != null && props.copy) {
             const response = await axios.post(`http://localhost:8080/paint/clone/${selectedNode.attrs.id}/${newID}`);
-            createShape(response);
-            props.setCopy(false);
+            createShape(response.data);
             setSelectedNode(null);
           }
+          props.setCopy(false);
         }
         clone();
       }, [props.copy]);
+
+      useEffect(() => {
+        const del = () =>{
+          console.log(selectedNode);
+          if (selectedNode != null && props.del) {
+            axios.delete(`http://localhost:8080/paint/remove/${selectedNode.attrs.id}`);
+            selectedNode.remove();
+            setSelectedNode(null);
+          }
+          props.setDel(false);
+        }
+        del();
+      }, [props.del]);
 
       useEffect(() => {
         const undo = async () =>{
