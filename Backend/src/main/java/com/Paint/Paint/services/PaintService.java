@@ -99,7 +99,7 @@ public class PaintService {
     public List<shape> redo() {
         if (redo.isEmpty()) {
             System.out.println("Redo stack is empty");
-            return getcurrentShapes(); 
+            return undo.peek();
         }
         allshapes.push(redo.peek());
         undo.push(redo.pop());
@@ -111,7 +111,7 @@ public class PaintService {
     public List<shape> undo() {
         if (undo.isEmpty()) {
             System.out.println("Undo empty");
-            return getcurrentShapes();
+            return null;
         }
         redo.push(undo.pop());
         allshapes.pop();
