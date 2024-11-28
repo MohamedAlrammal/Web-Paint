@@ -69,6 +69,7 @@ function Paintarea(props){
         });
         console.log("hello");
         console.log(response.data);
+        console.log(newShape);
         newShape.setAttrs(response.data);
         console.log(newShape);
         layerRef.current.batchDraw();

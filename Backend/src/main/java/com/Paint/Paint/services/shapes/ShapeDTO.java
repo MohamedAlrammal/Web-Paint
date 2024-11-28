@@ -24,11 +24,12 @@ public class ShapeDTO {  //  data transfer object (DTO)
     public double height ; 
     public double radius=0.0 ;
     public int sides;
-    public ArrayList<Double> points ;
+    public ArrayList<Double> points = new ArrayList<>() ;
     public double tension;
     public boolean closed = false;
-    public double fontFamily;
+    public String fontFamily;
     public String text;
+    public double fontSize;
     public double sidelength;
     public String Konvaname;
 }

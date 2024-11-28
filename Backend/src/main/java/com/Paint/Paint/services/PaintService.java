@@ -180,7 +180,13 @@ public class PaintService {
                 break;
             }
         }
-        if(dto.name.equals("Rect")){
+        if(dto.name.equals("Line")){
+            dto.points.add(0.0);
+            dto.points.add(0.0);
+            dto.points.add(newX - shape.getX());
+            dto.points.add(newY - shape.getY());
+        }
+        if(dto.name.equals("Rect") || dto.name.equals("text")){
             dto.height = newY - shape.getY();
             dto.width = newX - shape.getX();
         }

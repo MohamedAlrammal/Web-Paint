@@ -15,6 +15,14 @@ public class ShapeFactory {
                 return new Triangle(dto);
             case "hexagon":
               return new Hexagon(dto);
+            case "text":
+                dto.fill="black";
+                dto.text="Enter Something";
+                dto.fontFamily="Arial";
+                dto.fontSize = 30;
+                return new Text(dto);
+            case "Line":
+                return new Line(dto);
             default:
                 throw new IllegalArgumentException("Invalid shape name: " + dto.name);
         }

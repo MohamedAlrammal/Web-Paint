@@ -53,8 +53,8 @@ function Sidebar(props){
                         sx={{ backgroundColor: activeShape === 'hexagon' ? '#e0e0e0' : 'transparent' }}>
                 <HexagonIcon color='disabled' fontSize="large"/>
             </IconButton>
-            <IconButton title='Text' onClick={(e)=>handleShapeType("Text",e)}
-                        sx={{ backgroundColor: activeShape === 'Text' ? '#e0e0e0' : 'transparent' }}>
+            <IconButton title='Text' onClick={(e)=>handleShapeType("text",e)}
+                        sx={{ backgroundColor: activeShape === 'text' ? '#e0e0e0' : 'transparent' }}>
                 <TextIcon color='disabled' fontSize="large"/>
             </IconButton>
         </div>
