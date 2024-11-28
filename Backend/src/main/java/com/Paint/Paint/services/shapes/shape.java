@@ -29,6 +29,7 @@ public abstract class shape implements Cloneable{// clonable
     private double strokeWidth;
     private double fontFamily;
     private String text;
+    private String Konvaname;
 
     private String fill;
     public shape(ShapeDTO docreate) {
@@ -38,6 +39,7 @@ public abstract class shape implements Cloneable{// clonable
         this.fill = docreate.fill ;
         this.name = docreate.name ;
         this.stroke = docreate.stroke ;
+        this.Konvaname=docreate.Konvaname;
         this.strokeWidth = docreate.strokeWidth ;
         this.rotation = docreate.rotation ;
         this.draggable = docreate.draggable ;
@@ -59,6 +61,12 @@ public abstract class shape implements Cloneable{// clonable
     public abstract shape clone(String cloneid)throws CloneNotSupportedException;
 
     public shape(){
+    }
+    public String getKonvaname() {
+        return Konvaname;
+    }
+    public void setKonvaname(String stroke) {
+        this.Konvaname = Konvaname;
     }
     public String getStroke() {
         return stroke;

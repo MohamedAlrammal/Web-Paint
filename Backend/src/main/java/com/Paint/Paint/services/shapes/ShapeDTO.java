@@ -30,4 +30,5 @@ public class ShapeDTO {  //  data transfer object (DTO)
     public double fontFamily;
     public String text;
     public double sidelength;
+    public String Konvaname;
 }
