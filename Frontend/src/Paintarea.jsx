@@ -92,6 +92,11 @@ function Paintarea(props){
       useEffect(() => {
         console.log(selectedNode);
         if (selectedNode != null) {
+            axios.put(`http://localhost:8080/paint/update`,{
+              "name": selectedNode.name,
+              "id": selectedNode.id,
+              "fill": props.color
+            });
             selectedNode.fill(props.color);
             layerRef.current.batchDraw();
         }
@@ -99,7 +104,14 @@ function Paintarea(props){
 
       useEffect(() => {
         console.log(selectedNode);
+        console.log(props.strokeColor);
+        console.log(typeof(props.strokeColor));
         if (selectedNode != null) {
+            axios.put(`http://localhost:8080/paint/update`,{
+              "name": selectedNode.name(),
+              "id": selectedNode.id(),
+              "stroke": props.strokeColor
+            });
             selectedNode.stroke(props.strokeColor);
             layerRef.current.batchDraw();
         }
@@ -132,29 +144,113 @@ function Paintarea(props){
       }, [props.del]);
 
       useEffect(() => {
-        const undo = async () =>{
+        const undo = async () => {
             const response = await axios.post(`http://localhost:8080/paint/undo`);
-            layerRef.current.clear();
-            for(let i=0; i<response.data.length ; i++){
-              createShape(response.data[i]);
+            layerRef.current.destroyChildren();
+            layerRef.current.draw();
+            response.data.forEach(shapeData => {
+              console.log(shapeData);
+              createShape(shapeData);
+            });
+          }
+
+        const redo = async () => {
+            const response = await axios.post(`http://localhost:8080/paint/redo`);
+            layerRef.current.destroyChildren();
+            layerRef.current.draw();
+            response.data.forEach(shapeData => {
+              console.log(shapeData);
+              createShape(shapeData);
+            });
             }
-            props.setUndo(false);
-        }
-        const redo = async () =>{
-          const response = await axios.post(`http://localhost:8080/paint/redo`);
-            layerRef.current.clear();
-            for(let i=0; i<response.data.length ; i++){
-              createShape(response.data[i]);
-            }
-            props.setUndo(false);
-        }
-        if(props.undo){
+        if (props.undo) {
           undo();
-        }
-        else{
+          props.setUndo(false);
+        } else if (props.redo) {
           redo();
+          props.setRedo(false);
         }
       }, [props.undo, props.redo]);
+
+      
+      /*const [directoryPath, setDirectoryPath] = useState('');
+  const [directoryContents, setDirectoryContents] = useState([]);
+  const [filePath, setFilePath] = useState('');
+  const [fileContents, setFileContents] = useState('');
+      useEffect(() => {
+        async function getDirectory() {
+          const handle = await window.showDirectoryPicker();
+          console.log(handle);
+          return handle;
+        }
+
+        async function getFile() {
+          const [handle] = await window.showOpenFilePicker();
+          console.log(handle);
+          return handle;
+        }
+        
+        const save = async () => {
+          const handle = await getDirectory();
+          const path = handle.name;
+          console.log(path);
+          setDirectoryPath(path);
+
+      // List contents of the directory
+      const contents = [];
+      for await (const entry of handle.values()) {
+        contents.push(entry.name);
+      }
+      setDirectoryContents(contents);
+
+      console.log(`Selected directory: ${path}`);
+      console.log('Directory contents:', contents);
+        }
+          
+        const load = async () => {
+          const handle = await getFile(); // Await the getFile function
+    const file = await handle.getFile();
+    console.log(file);
+    const path = file.name;
+    console.log(path);
+    setFilePath(path);
+        }
+      
+        if (props.save) {
+          save();
+        } else if (props.load) {
+          load();
+        }
+      }, [props.save, props.load]);*/
+
+      const [saved, setSaved] = useState(false);
+      useEffect(() => {
+        const save = async () => {
+          const path = window.prompt("Enter The Saving Location:");
+          console.log(path);
+          if(path != null){
+            axios.post(`http://localhost:8080/paint/save?path=${path}`);
+            setSaved(true);
+          }
+        }
+        
+        const load = async () => {
+          const path = window.prompt("Enter The File Path:");
+          console.log(path);
+          if(path != null){
+            axios.post(`http://localhost:8080/paint/load?path=${path}`);
+            setSaved(true);
+          }
+        }
+      
+        if (props.save) {
+          save();
+          props.setSave(false);
+        } else if (props.load) {
+          load();
+          props.setLoad(false);
+        }
+      }, [props.save, props.load]);
 
       const handleClick = (e) => {
         if(e.target instanceof Konva.Stage){
