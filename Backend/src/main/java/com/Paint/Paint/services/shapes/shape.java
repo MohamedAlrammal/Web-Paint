@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @JsonSubTypes.Type(value = Triangle.class, name = "triangle"),
     @JsonSubTypes.Type(value = Polygon.class, name = "polygon"),
     @JsonSubTypes.Type(value = Hexagon.class, name = "hexagon"),
-    @JsonSubTypes.Type(value = Elipse.class, name = "ellipse")
+    @JsonSubTypes.Type(value = Ellipse.class, name = "ellipse")
  
 })
 @JsonIgnoreProperties(value = "attributes" ,ignoreUnknown = true)

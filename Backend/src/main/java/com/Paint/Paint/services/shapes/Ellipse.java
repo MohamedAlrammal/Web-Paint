@@ -1,16 +1,16 @@
 package com.Paint.Paint.services.shapes;
 import com.fasterxml.jackson.annotation.JsonTypeName;
-@JsonTypeName("elipse")
-public class Elipse extends shape {
+@JsonTypeName("ellipse")
+public class Ellipse extends shape {
     private double radiusX;
     private double radiusY;
-    private final String Konvaname = "Elipse";
-    public Elipse(ShapeDTO e) {
+    private final String Konvaname = "Ellipse";
+    public Ellipse(ShapeDTO e) {
         super(e);
         this.radiusX = e.radiusX;
         this.radiusY = e.radiusY;
     }
-    public Elipse(Elipse e){
+    public Ellipse(Ellipse e){
         super(e);
         this.setRadiusX(e.getScaleofX());
         this.setRadiusY(e.getScaleofY());
@@ -34,7 +34,7 @@ public class Elipse extends shape {
     }
     @Override
     public shape clone(String cloneid) throws CloneNotSupportedException {
-        Elipse clonesquare = new Elipse(this);
+        Ellipse clonesquare = new Ellipse(this);
         clonesquare.setId(cloneid);
         return clonesquare;
     }

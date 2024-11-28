@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IconButton } from '@mui/material'
 import FillColorIcon from '@mui/icons-material/SquareRounded'
 import BorderWidthIcon from '@mui/icons-material/LineWeightRounded';
@@ -12,6 +12,11 @@ import DeleteIcon from '@mui/icons-material/DeleteTwoTone'
 import ClearIcon from '@mui/icons-material/LayersClearTwoTone'
 
 function Toolbar(props){
+    const [isSelecting, setIsSelecting] = useState(false);
+
+    const handleSelect = () => {
+        setIsSelecting(true);
+    }
 
     function handleColorChange(e){
         console.log(e);
@@ -20,6 +25,7 @@ function Toolbar(props){
     function handleStrokeColorChange(e){
         props.setStrokeColor(e.target.value);
     }
+    
     function handleClick(option){
         switch(option){
             case "undo":
@@ -46,21 +52,33 @@ function Toolbar(props){
         }
     }
 
-    const handleBlur= () => {
-        console.log("focus");
-        props.setUpdate(true);
-    }
+    useEffect(() => {
+        const handleMouseUp = (event) => {
+          console.log('Mouse button released at coordinates:', event.clientX, event.clientY);
+          console.log("notSelecting");
+          if(isSelecting){
+            console.log("selected");
+            props.setUpdate(true);
+          }
+          setIsSelecting(false);
+          console.log(isSelecting)
+        };
+        window.addEventListener('mouseup', handleMouseUp);
+        return () => {
+          window.removeEventListener('mouseup', handleMouseUp);
+        };
+      }, [props.color, props.strokeColor])
 
     return(
         <div className="toolbar">
             <div className='toolbarLeft'>
                 <label style={{display: "flex"}}>
-                    <FillColorIcon style={{marginRight: "15px"}} sx={{ fontSize: 27 , color: props.color, stroke: "#B3B3B3", strokeWidth: "2"}}/>
-                    <input type='color' value={props.color} onBlur={handleBlur} onChange={handleColorChange} style={{display: "none"}}/>
+                    <FillColorIcon onClick={handleSelect} style={{marginRight: "15px"}} sx={{ fontSize: 27 , color: props.color, stroke: "#B3B3B3", strokeWidth: "2"}}/>
+                    <input type='color' value={props.color} onChange={handleColorChange} style={{display: "none"}}/>
                 </label>
                 <label style={{display: "flex"}}>
-                    <FillColorIcon style={{marginRight: "7px"}} sx={{ fontSize: 27, color: "#B3B3B3", stroke: props.strokeColor, strokeWidth: "2"}}/>
-                    <input type='color' value={props.strokeColor} onBlur={handleBlur} onChange={handleStrokeColorChange} style={{display: "none"}}/>
+                    <FillColorIcon onClick={handleSelect} style={{marginRight: "7px"}} sx={{ fontSize: 27, color: "#B3B3B3", stroke: props.strokeColor, strokeWidth: "2"}}/>
+                    <input type='color' value={props.strokeColor} onChange={handleStrokeColorChange} style={{display: "none"}}/>
                 </label>
                 <IconButton>
                     <BorderWidthIcon color='disabled' sx={{ fontSize: 30 }}/>

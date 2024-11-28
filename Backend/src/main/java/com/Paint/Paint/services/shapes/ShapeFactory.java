@@ -8,7 +8,7 @@ public class ShapeFactory {
             case "Rect":
                 return new Rectangle(dto);
             case "ellipse":
-                return new Elipse(dto);
+                return new Ellipse(dto);
             case "Circle":
                 return new Circle(dto);
             case "triangle":
@@ -34,7 +34,7 @@ public class ShapeFactory {
             case "Rect":
                 return new Rectangle((Rectangle) s);
             case "ellipse":
-                return new Elipse((Elipse) s);
+                return new Ellipse((Ellipse) s);
             case "Circle":
                 return new Circle((Circle) s);
             case "triangle":

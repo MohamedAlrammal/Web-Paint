@@ -36,6 +36,7 @@ function Paintarea(props){
     const [newShape, setNewShape] = useState(null);
     const layerRef = useRef(null);
     const [selectedNode, setSelectedNode] = useState(null); // Track the currently selected shape
+    const [lastSelectedNode, setLastSelectedNode] = useState(null);
     const transformerRef = useRef(null);
 
     const createShape = async (data) =>{
@@ -92,37 +93,37 @@ function Paintarea(props){
 
       useEffect(() => {
         if (selectedNode != null) {
-            if(props.update == true){
+            selectedNode.fill(props.color);
+            layerRef.current.batchDraw();
+        }
+        if(props.update == true && lastSelectedNode != null){
               axios.put(`http://localhost:8080/paint/update`,{
-                "name": selectedNode.name,
-                "id": selectedNode.id,
+                "name": lastSelectedNode.name(),
+                "id": lastSelectedNode.id(),
                 "fill": props.color
             });
             console.log("send update");
             }
-            selectedNode.fill(props.color);
-            layerRef.current.batchDraw();
-        }
         props.setUpdate(false);
-      }, [props.color]);
+      }, [props.color, props.update]);
 
       useEffect(() => {
         console.log(selectedNode);
         console.log(props.strokeColor);
         console.log(typeof(props.strokeColor));
         if (selectedNode != null) {
-            if(props.update == true){
-              axios.put(`http://localhost:8080/paint/update`,{
-                "name": selectedNode.name(),
-                "id": selectedNode.id(),
-                "stroke": props.strokeColor
-              });
-            }
             selectedNode.stroke(props.strokeColor);
             layerRef.current.batchDraw();
         }
+        if(props.update == true && lastSelectedNode != null){
+          axios.put(`http://localhost:8080/paint/update`,{
+            "name": lastSelectedNode.name(),
+            "id": lastSelectedNode.id(),
+            "stroke": props.strokeColor
+          });
+        }
         props.setUpdate(false);
-      }, [props.strokeColor]);
+      }, [props.strokeColor, props.update]);
 
       useEffect(() => {
         const clone = async () =>{
@@ -282,9 +283,11 @@ function Paintarea(props){
 
       const handleClick = (e) => {
         if(e.target instanceof Konva.Stage){
+          setLastSelectedNode(selectedNode);
           setSelectedNode(null);
         }
         else{
+          setLastSelectedNode(e.target);
           setSelectedNode(e.target);
         }
       };
