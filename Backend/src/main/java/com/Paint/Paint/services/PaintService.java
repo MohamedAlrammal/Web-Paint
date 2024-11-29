@@ -2,6 +2,7 @@ package com.Paint.Paint.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -140,8 +141,8 @@ public class PaintService {
         }
         System.out.println("---------------------------------------------------------");
     }
-    public void updateshape(shape updated , boolean flag){
-        List<shape> currentshapes =getcurrentShapes();
+    public void updateshape(shape updated){
+        List<shape> currentshapes = getcurrentShapes();
         for(int i=0;i<currentshapes.size();i++){
             shape shape = currentshapes.get(i);
             if(shape.getId().equals(updated.getId())){
@@ -151,23 +152,90 @@ public class PaintService {
             }
         }
         changedmap();
-        if(flag){
-            undo.push(currentshapes);
-        }
+        undo.push(currentshapes);
         saveState(currentshapes);
         printShapeStack();
         printShapeStackallshapes();
     }
 
-    public void endUpdate(boolean endUpdate){
-        List<shape> currentshapes =getcurrentShapes();
-        if(endUpdate) {
-            saveState(currentshapes);
-            undo.push(currentshapes);
-            System.out.println("ahlaaaaaaan");
+    public shape updateshape(ShapeDTO dto){
+        List<shape> currentshapes = getcurrentShapes();
+        shape shape = currentshapes.get(0);
+        for(int i=0;i<currentshapes.size();i++){
+            shape = currentshapes.get(i);
+            if(shape.getId().equals(dto.id)){
+                break;
+            }
         }
+        if (dto.x != 0) {
+            shape.setX(dto.x);
+        }
+        if (dto.y != 0) {
+            shape.setY(dto.y);
+        }
+        if (dto.rotation != 0) {
+            shape.setRotation(dto.rotation);
+        }
+        if (dto.scaleofX != 0) {
+            shape.setScaleofX(dto.scaleofX);
+        }
+        if (dto.scaleofY != 0) {
+            shape.setScaleofY(dto.scaleofY);
+        }
+        if (dto.stroke != null) {
+            shape.setStroke(dto.stroke);
+        }
+        if (dto.strokeWidth != 0) {
+            shape.setStrokeWidth(dto.strokeWidth);
+        }
+        if (dto.fill != null) {
+            shape.setFill(dto.fill);
+        }
+        /*if (dto.radiusX != 0) {
+            shape.setRadiusX(dto.radiusX);
+        }
+        if (dto.radiusY != 0) {
+            shape.setRadiusY(dto.radiusY);
+        }*/
+        if (dto.width != 0) {
+            try {
+                Method method = shape.getClass().getMethod("setWidth", double.class);
+                method.invoke(shape, dto.width);
+            }
+            catch (Exception e){}
+        }
+        if (dto.height != 0) {
+            try {
+                Method method = shape.getClass().getMethod("setHeight", double.class);
+                method.invoke(shape, dto.height);
+            }
+            catch (Exception e){}
+        }
+        if (dto.radius != 0) {
+            try {
+                Method method = shape.getClass().getMethod("setRadius", double.class);
+                method.invoke(shape, dto.radius);
+            }
+            catch (Exception e){}
+        }
+        /*if (dto.fontFamily != null) {
+            shape.setFontFamily(dto.fontFamily);
+        }
+        if (dto.text != null) {
+            System.out.println("text is not null");
+        }
+        if (dto.fontSize != 0) {
+            shape.setFontSize(dto.fontSize);
+        }
+        if (dto.points != null) {
+            shape.setPoints(dto.points);
+        }*/
+        changedmap();
+        undo.push(currentshapes);
+        saveState(currentshapes);
         printShapeStack();
         printShapeStackallshapes();
+        return shape;
     }
 
     public ShapeDTO updateDTO(ShapeDTO dto, double newX, double newY){

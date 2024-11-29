@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { IconButton } from '@mui/material'
 import FillColorIcon from '@mui/icons-material/SquareRounded'
 import BorderWidthIcon from '@mui/icons-material/LineWeightRounded';
@@ -13,13 +13,17 @@ import ClearIcon from '@mui/icons-material/LayersClearTwoTone'
 
 function Toolbar(props){
     const [isSelecting, setIsSelecting] = useState(false);
+    const isSelectingRef = useRef(isSelecting);
+
+    useEffect(() => {
+        isSelectingRef.current = isSelecting;
+    }, [isSelecting]);
 
     const handleSelect = () => {
         setIsSelecting(true);
     }
 
     function handleColorChange(e){
-        console.log(e);
         props.setColor(e.target.value);
     }
     function handleStrokeColorChange(e){
@@ -54,14 +58,10 @@ function Toolbar(props){
 
     useEffect(() => {
         const handleMouseUp = (event) => {
-          console.log('Mouse button released at coordinates:', event.clientX, event.clientY);
-          console.log("notSelecting");
-          if(isSelecting){
-            console.log("selected");
+          if(isSelectingRef.current){
             props.setUpdate(true);
           }
-          setIsSelecting(false);
-          console.log(isSelecting)
+        setIsSelecting((prev) => false);
         };
         window.addEventListener('mouseup', handleMouseUp);
         return () => {

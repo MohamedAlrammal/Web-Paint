@@ -51,7 +51,6 @@ public class control {
             ShapeFactory factory = new ShapeFactory();
             dto = paintService.updateDTO(dto, newX, newY);
             shape updatedShape = factory.createShape(dto);
-            paintService.updateshape(updatedShape, false);
             return ResponseEntity.ok(updatedShape);
         } catch (Exception e) {
             e.printStackTrace();
@@ -59,11 +58,14 @@ public class control {
         }
     }
 
-    @PutMapping("/endUpdate/{flag}")
-    public ResponseEntity<Object> endingUpdate(@PathVariable boolean flag) {
+    @PutMapping("/endUpdate/{newX}/{newY}")
+    public ResponseEntity<Object> endingUpdate(@RequestBody ShapeDTO dto, @PathVariable double newX, @PathVariable double newY) {
         try {
-            paintService.endUpdate(flag);
-            return ResponseEntity.ok(flag);
+            ShapeFactory factory = new ShapeFactory();
+            dto = paintService.updateDTO(dto, newX, newY);
+            shape updatedShape = factory.createShape(dto);
+            paintService.updateshape(updatedShape);
+            return ResponseEntity.ok(updatedShape);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
@@ -73,10 +75,7 @@ public class control {
     @PutMapping("/update")
     public ResponseEntity<Object> updateShape(@RequestBody ShapeDTO dto) {
         try {
-            ShapeFactory factory = new ShapeFactory();
-            shape updatedShape = factory.createShape(dto);
-            paintService.updateshape(updatedShape,true);
-            return ResponseEntity.ok(updatedShape);
+            return ResponseEntity.ok(paintService.updateshape(dto));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");

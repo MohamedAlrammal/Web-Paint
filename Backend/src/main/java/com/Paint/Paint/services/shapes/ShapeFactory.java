@@ -2,6 +2,9 @@ package com.Paint.Paint.services.shapes;
 
 public class ShapeFactory {
     public shape createShape(ShapeDTO dto) {
+        dto.stroke="#000000";
+        dto.fill="#FFFFFF";
+        dto.strokeWidth = 4;
         switch (dto.name) {
             case "square":
                 return new Square(dto);

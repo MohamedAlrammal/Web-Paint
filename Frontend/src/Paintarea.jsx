@@ -76,9 +76,13 @@ function Paintarea(props){
         layerRef.current.batchDraw();
     };
     
-      const handleMouseUp = async () => {
+      const handleMouseUp = async (e) => {
         if (!isDrawing) return;
-        await axios.put(`http://localhost:8080/paint/endUpdate/${true}`);
+        const { x, y } = e.target.getStage().getPointerPosition();
+        await axios.put(`http://localhost:8080/paint/endUpdate/${x}/${y}`, {
+          name: props.shapeType,
+          id: newID,
+        });
         setNewShape(null);
         setNewID(n => (parseInt(n) + 1).toString());
         setIsDrawing(false);
@@ -92,14 +96,19 @@ function Paintarea(props){
       }, [selectedNode]);
 
       useEffect(() => {
+        console.log(props.color);
+        console.log(typeof(props.color));
         if (selectedNode != null) {
             selectedNode.fill(props.color);
             layerRef.current.batchDraw();
         }
         if(props.update == true && lastSelectedNode != null){
+          console.log(lastSelectedNode.attrs.name);
+          console.log(lastSelectedNode.attrs.id);
+          console.log(props.color);
               axios.put(`http://localhost:8080/paint/update`,{
-                "name": lastSelectedNode.name(),
-                "id": lastSelectedNode.id(),
+                "name": lastSelectedNode.attrs.name,
+                "id": lastSelectedNode.attrs.id,
                 "fill": props.color
             });
             console.log("send update");
@@ -108,7 +117,6 @@ function Paintarea(props){
       }, [props.color, props.update]);
 
       useEffect(() => {
-        console.log(selectedNode);
         console.log(props.strokeColor);
         console.log(typeof(props.strokeColor));
         if (selectedNode != null) {
@@ -116,9 +124,13 @@ function Paintarea(props){
             layerRef.current.batchDraw();
         }
         if(props.update == true && lastSelectedNode != null){
+          console.log(lastSelectedNode.attrs.name);
+          console.log(lastSelectedNode.attrs.id);
+          console.log(props.strokeColor);
+          console.log("send update");
           axios.put(`http://localhost:8080/paint/update`,{
-            "name": lastSelectedNode.name(),
-            "id": lastSelectedNode.id(),
+            "name": lastSelectedNode.attrs.name,
+            "id": lastSelectedNode.attrs.id,
             "stroke": props.strokeColor
           });
         }
@@ -287,7 +299,7 @@ function Paintarea(props){
           setSelectedNode(null);
         }
         else{
-          setLastSelectedNode(e.target);
+          setLastSelectedNode(selectedNode);
           setSelectedNode(e.target);
         }
       };
