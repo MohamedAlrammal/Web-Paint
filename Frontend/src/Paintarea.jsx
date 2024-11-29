@@ -89,32 +89,13 @@ function Paintarea(props){
       };
 
       useEffect(() => {
-        if (selectedNode) {
-            transformerRef.current.nodes([selectedNode]);
-            transformerRef.current.getLayer().batchDraw();
-        }
-      }, [selectedNode]);
-
-      useEffect(() => {
         console.log(props.color);
         console.log(typeof(props.color));
         if (selectedNode != null) {
             selectedNode.fill(props.color);
             layerRef.current.batchDraw();
         }
-        if(props.update == true && lastSelectedNode != null){
-          console.log(lastSelectedNode.attrs.name);
-          console.log(lastSelectedNode.attrs.id);
-          console.log(props.color);
-              axios.put(`http://localhost:8080/paint/update`,{
-                "name": lastSelectedNode.attrs.name,
-                "id": lastSelectedNode.attrs.id,
-                "fill": props.color
-            });
-            console.log("send update");
-            }
-        props.setUpdate(false);
-      }, [props.color, props.update]);
+      }, [props.color]);
 
       useEffect(() => {
         console.log(props.strokeColor);
@@ -123,19 +104,7 @@ function Paintarea(props){
             selectedNode.stroke(props.strokeColor);
             layerRef.current.batchDraw();
         }
-        if(props.update == true && lastSelectedNode != null){
-          console.log(lastSelectedNode.attrs.name);
-          console.log(lastSelectedNode.attrs.id);
-          console.log(props.strokeColor);
-          console.log("send update");
-          axios.put(`http://localhost:8080/paint/update`,{
-            "name": lastSelectedNode.attrs.name,
-            "id": lastSelectedNode.attrs.id,
-            "stroke": props.strokeColor
-          });
-        }
-        props.setUpdate(false);
-      }, [props.strokeColor, props.update]);
+      }, [props.strokeColor]);
 
       useEffect(() => {
         const clone = async () =>{
@@ -293,13 +262,28 @@ function Paintarea(props){
         }
       }, [props.save, props.load]);
 
+      useEffect(() => {
+        if (selectedNode) {
+            transformerRef.current.nodes([selectedNode]);
+            transformerRef.current.getLayer().batchDraw();
+            console.log(selectedNode);
+        }
+      }, [selectedNode]);
+
+      useEffect(() => {
+        if(lastSelectedNode != null && lastSelectedNode != selectedNode){
+          console.log("Sending");
+          console.log(lastSelectedNode.attrs);
+          axios.put(`http://localhost:8080/paint/update`, lastSelectedNode.attrs);
+        }
+      });
+
       const handleClick = (e) => {
+        setLastSelectedNode(selectedNode);
         if(e.target instanceof Konva.Stage){
-          setLastSelectedNode(selectedNode);
           setSelectedNode(null);
         }
         else{
-          setLastSelectedNode(selectedNode);
           setSelectedNode(e.target);
         }
       };

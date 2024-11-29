@@ -12,17 +12,6 @@ import DeleteIcon from '@mui/icons-material/DeleteTwoTone'
 import ClearIcon from '@mui/icons-material/LayersClearTwoTone'
 
 function Toolbar(props){
-    const [isSelecting, setIsSelecting] = useState(false);
-    const isSelectingRef = useRef(isSelecting);
-
-    useEffect(() => {
-        isSelectingRef.current = isSelecting;
-    }, [isSelecting]);
-
-    const handleSelect = () => {
-        setIsSelecting(true);
-    }
-
     function handleColorChange(e){
         props.setColor(e.target.value);
     }
@@ -56,28 +45,15 @@ function Toolbar(props){
         }
     }
 
-    useEffect(() => {
-        const handleMouseUp = (event) => {
-          if(isSelectingRef.current){
-            props.setUpdate(true);
-          }
-        setIsSelecting((prev) => false);
-        };
-        window.addEventListener('mouseup', handleMouseUp);
-        return () => {
-          window.removeEventListener('mouseup', handleMouseUp);
-        };
-      }, [props.color, props.strokeColor])
-
     return(
         <div className="toolbar">
             <div className='toolbarLeft'>
                 <label style={{display: "flex"}}>
-                    <FillColorIcon onClick={handleSelect} style={{marginRight: "15px"}} sx={{ fontSize: 27 , color: props.color, stroke: "#B3B3B3", strokeWidth: "2"}}/>
+                    <FillColorIcon style={{marginRight: "15px"}} sx={{ fontSize: 27 , color: props.color, stroke: "#B3B3B3", strokeWidth: "2"}}/>
                     <input type='color' value={props.color} onChange={handleColorChange} style={{display: "none"}}/>
                 </label>
                 <label style={{display: "flex"}}>
-                    <FillColorIcon onClick={handleSelect} style={{marginRight: "7px"}} sx={{ fontSize: 27, color: "#B3B3B3", stroke: props.strokeColor, strokeWidth: "2"}}/>
+                    <FillColorIcon style={{marginRight: "7px"}} sx={{ fontSize: 27, color: "#B3B3B3", stroke: props.strokeColor, strokeWidth: "2"}}/>
                     <input type='color' value={props.strokeColor} onChange={handleStrokeColorChange} style={{display: "none"}}/>
                 </label>
                 <IconButton>
