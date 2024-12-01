@@ -1,5 +1,6 @@
 package com.Paint.Paint.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,22 +32,8 @@ public class control {
     @Autowired
     public  PaintService paintService;
 
-    @PostMapping("/create")
-    public ResponseEntity<Object> createShape(@RequestBody ShapeDTO dto) {
-        try {
-            System.out.println("arrivee");
-            ShapeFactory factory = new ShapeFactory();
-            shape obj = factory.createShape(dto);
-            paintService.addShape(obj, true);
-            return ResponseEntity.ok(obj);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
-        }
-    }
-
-    @PutMapping("/createupdate/{newX}/{newY}")
-    public ResponseEntity<Object> createUpdate(@RequestBody ShapeDTO dto , @PathVariable double newX, @PathVariable double newY) {
+    @PutMapping("/mockCreate/{newX}/{newY}")
+    public ResponseEntity<Object> mockCreate(@RequestBody ShapeDTO dto , @PathVariable double newX, @PathVariable double newY) {
         try {
             ShapeFactory factory = new ShapeFactory();
             dto = paintService.updateDTO(dto, newX, newY);
@@ -58,14 +45,14 @@ public class control {
         }
     }
 
-    @PutMapping("/endUpdate/{newX}/{newY}")
-    public ResponseEntity<Object> endingUpdate(@RequestBody ShapeDTO dto, @PathVariable double newX, @PathVariable double newY) {
+    @PutMapping("/create/{newX}/{newY}")
+    public ResponseEntity<Object> create(@RequestBody ShapeDTO dto, @PathVariable double newX, @PathVariable double newY) {
         try {
             ShapeFactory factory = new ShapeFactory();
             dto = paintService.updateDTO(dto, newX, newY);
-            shape updatedShape = factory.createShape(dto);
-            paintService.updateshape(updatedShape);
-            return ResponseEntity.ok(updatedShape);
+            shape shape = factory.createShape(dto);
+            paintService.addShape(shape);
+            return ResponseEntity.ok(shape);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
@@ -75,7 +62,8 @@ public class control {
     @PutMapping("/update")
     public ResponseEntity<Object> updateShape(@RequestBody ShapeDTO dto) {
         try {
-            return ResponseEntity.ok(paintService.updateshape(dto));
+            paintService.updateshape(dto);
+            return ResponseEntity.ok(dto);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Internal Server Error");
@@ -95,18 +83,17 @@ public class control {
         }
     }
     @DeleteMapping("/clearAll")
-    public ResponseEntity<List<shape>> clearAll() {
+    public void clearAll() {
         try {
-            return ResponseEntity.ok(paintService.clearAll());
+            paintService.clearAll();
         }catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
     @DeleteMapping("/remove/{shapeId}")
     public ResponseEntity<List<shape>> removeShape(@PathVariable String shapeId) {
         try {
-            return ResponseEntity.ok(paintService.removShapes(shapeId));
+            return ResponseEntity.ok(paintService.removeShapes(shapeId));
         }catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -115,6 +102,8 @@ public class control {
     @PostMapping("/undo")
     public ResponseEntity<List<shape>> undo() {
         try {
+            System.out.println("hello");
+            paintService.printStack();
             List<shape> result = paintService.undo();
             return ResponseEntity.ok(result);
         } catch (Exception e) {

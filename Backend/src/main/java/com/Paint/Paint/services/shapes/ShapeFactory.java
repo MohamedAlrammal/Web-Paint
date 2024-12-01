@@ -2,9 +2,6 @@ package com.Paint.Paint.services.shapes;
 
 public class ShapeFactory {
     public shape createShape(ShapeDTO dto) {
-        dto.stroke="#000000";
-        dto.fill="#FFFFFF";
-        dto.strokeWidth = 4;
         switch (dto.name) {
             case "square":
                 return new Square(dto);
@@ -19,10 +16,6 @@ public class ShapeFactory {
             case "hexagon":
               return new Hexagon(dto);
             case "text":
-                dto.fill="black";
-                dto.text="Enter Something";
-                dto.fontFamily="Arial";
-                dto.fontSize = 30;
                 return new Text(dto);
             case "Line":
                 return new Line(dto);

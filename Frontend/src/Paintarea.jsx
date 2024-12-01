@@ -46,17 +46,18 @@ function Paintarea(props){
       layerRef.current.add(shape);
       layerRef.current.draw();
     }
-    
+      const [createPosition, setCreatePosition] = useState();
       const handleMouseDown = async (e) => {
         if(props.shapeType != null){
           const { x, y } = e.target.getStage().getPointerPosition();
-          const response = await axios.post("http://localhost:8080/paint/create", {
+          const response = await axios.put(`http://localhost:8080/paint/mockCreate/${x}/${y}`, {
             "name": props.shapeType,
             "id" : newID,
             "x": x,
             "y": y
           });
           createShape(response.data);
+          setCreatePosition({x, y});
           setIsDrawing(true);
         }
       };
@@ -64,24 +65,24 @@ function Paintarea(props){
       const handleMouseMove = async (e) => {
         if (!isDrawing) return;
         const { x, y } = e.target.getStage().getPointerPosition();
-        const response = await axios.put(`http://localhost:8080/paint/createupdate/${x}/${y}`, {
+        const response = await axios.put(`http://localhost:8080/paint/mockCreate/${x}/${y}`, {
           name: props.shapeType,
           id: newID,
+          x: createPosition.x,
+          y: createPosition.y
         });
-        console.log("hello");
-        console.log(response.data);
-        console.log(newShape);
         newShape.setAttrs(response.data);
-        console.log(newShape);
         layerRef.current.batchDraw();
     };
     
       const handleMouseUp = async (e) => {
         if (!isDrawing) return;
         const { x, y } = e.target.getStage().getPointerPosition();
-        await axios.put(`http://localhost:8080/paint/endUpdate/${x}/${y}`, {
+        await axios.put(`http://localhost:8080/paint/create/${x}/${y}`, {
           name: props.shapeType,
           id: newID,
+          x: createPosition.x,
+          y: createPosition.y
         });
         setNewShape(null);
         setNewID(n => (parseInt(n) + 1).toString());

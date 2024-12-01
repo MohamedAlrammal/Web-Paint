@@ -16,6 +16,12 @@ public class Rectangle extends shape {
         this.width = l.width;
         this.height =l.height;
     }
+    @Override
+    public void update(ShapeDTO dto){
+        super.update(dto);
+        this.width = dto.width ;
+        this.height = dto.height ;
+    }
     public Rectangle(){}
     public double getWidth() {
         return width;

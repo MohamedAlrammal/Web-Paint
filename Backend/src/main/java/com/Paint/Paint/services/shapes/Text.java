@@ -68,6 +68,16 @@ public class Text extends shape {
         this.height =s.height;
     }
 
+    @Override
+    public void update(ShapeDTO dto){
+        super.update(dto);
+        this.width = dto.width ;
+        this.height = dto.height ;
+        this.fontSize = dto.fontSize ;
+        this.fontFamily = dto.fontFamily ;
+        this.width = dto.width;
+    }
+
     public String getKonvaname(){
         return Konvaname;
     }

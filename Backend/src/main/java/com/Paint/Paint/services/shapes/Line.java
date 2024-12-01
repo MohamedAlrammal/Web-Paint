@@ -26,6 +26,12 @@ public class Line extends shape {
         this.points = new ArrayList<>(l.points);
         this.tension = l.tension;
     }
+    @Override
+    public void update(ShapeDTO dto){
+        super.update(dto);
+        this.points = dto.points ;
+        this.tension = dto.tension ;
+    }
     public String getKonvaname() {
         return Konvaname;
     }

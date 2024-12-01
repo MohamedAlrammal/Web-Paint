@@ -16,6 +16,12 @@ public class Polygon extends shape {
         this.radius = t.radius ;
         this.sides = t.sides ;
     }
+    @Override
+    public void update(ShapeDTO dto){
+        super.update(dto);
+        this.radius = dto.radius ;
+        this.sides = dto.sides ;
+    }
     public double getRadius() {
         return radius;
     }

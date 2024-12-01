@@ -19,6 +19,11 @@ public class Circle extends shape {
     public Circle() {
 
      }
+    @Override
+    public void update(ShapeDTO dto){
+         super.update(dto);
+        this.radius = dto.radius ;
+    }
      public String getKonvaname(){
         return Konvaname;
      }

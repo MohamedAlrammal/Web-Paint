@@ -23,6 +23,12 @@ public class Square extends shape {
     public String getKonvaname(){
         return Konvaname;
      }
+    @Override
+    public void update(ShapeDTO dto){
+        super.update(dto);
+        this.width = dto.width ;
+        this.height = dto.height ;
+    }
     
     public Square() {}
     

@@ -20,6 +20,11 @@ public class Hexagon extends shape {
         super(h);
         this.radius = h.radius;
     }
+    @Override
+    public void update(ShapeDTO dto){
+        super.update(dto);
+        this.radius = dto.radius ;
+    }
     public double getRadius() {
         return radius;
     }

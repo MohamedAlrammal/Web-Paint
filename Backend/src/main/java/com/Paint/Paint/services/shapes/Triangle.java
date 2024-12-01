@@ -25,7 +25,11 @@ public class Triangle extends shape {
         super(t);
         this.radius = t.radius;
     }
-
+    @Override
+    public void update(ShapeDTO dto){
+        super.update(dto);
+        this.radius = dto.radius ;
+    }
     public double getRadius() {
         return radius;
     }

@@ -29,8 +29,6 @@ public abstract class shape implements Cloneable{// clonable
     private double scaleofX;
     private String stroke;
     private double strokeWidth;
-    private double fontFamily;
-    private String text;
     private String Konvaname;
 
     private String fill;
@@ -51,6 +49,7 @@ public abstract class shape implements Cloneable{// clonable
     public shape(shape s){ //copy
         this.id = s.id ;
         this.name = s.name ;
+        this.Konvaname = s.Konvaname;
         this.x=s.x+10 ;
         this.y=s.y+10 ;
         this.draggable = s.draggable ;
@@ -59,6 +58,19 @@ public abstract class shape implements Cloneable{// clonable
         this.stroke = s.stroke ;
         this.strokeWidth = s.strokeWidth ;
         this.fill = s.fill ;
+    }
+    public void update(ShapeDTO dto){
+        this.id = dto.id ;
+        this.name = dto.name ;
+        this.Konvaname = dto.Konvaname;
+        this.x = dto.x ;
+        this.y = dto.y ;
+        this.draggable = dto.draggable ;
+        this.scaleofX = dto.scaleofX ;
+        this.scaleofY = dto.scaleofY ;
+        this.stroke = dto.stroke ;
+        this.strokeWidth = dto.strokeWidth ;
+        this.fill = dto.fill ;
     }
     public abstract shape clone(String cloneid)throws CloneNotSupportedException;
 

@@ -15,6 +15,12 @@ public class Ellipse extends shape {
         this.setRadiusX(e.getScaleofX());
         this.setRadiusY(e.getScaleofY());
     }
+    @Override
+    public void update(ShapeDTO dto){
+        super.update(dto);
+        this.radiusX = dto.radiusX ;
+        this.radiusY = dto.radiusY ;
+    }
     public double getRadiusX() {
         return radiusX;
     }
