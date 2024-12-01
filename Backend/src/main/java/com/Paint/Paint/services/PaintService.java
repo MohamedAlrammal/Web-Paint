@@ -100,14 +100,27 @@ public class PaintService {
         System.out.println("---------------------------------------------------------");
     }
 
-    public void updateshape(ShapeDTO update){
+    public void updateshape(ShapeDTO update) throws CloneNotSupportedException {
         redo.clear();
-        List<shape> currentshapes = new ArrayList<>(undo.peek());
-        shape shape = getShapeById(update.id);
+        List<shape> currentShapes = new ArrayList<>();
+        for (shape originalShape : undo.peek()) {
+            if(originalShape.getId().equals(update.id)){
+                shape copiedShape = originalShape.clone(originalShape.getId());
+                currentShapes.add(copiedShape);
+            }
+            else{
+                currentShapes.add(originalShape);
+            }
+        }
+        shape shape = currentShapes.get(0);
+        for(int i=0;i<currentShapes.size();i++){
+            shape = currentShapes.get(i);
+            if(shape.getId().equals(update.id)){
+                break;
+            }
+        }
         shape.update(update);
-        printStack();
-        System.out.println("between");
-        undo.push(currentshapes);
+        undo.push(currentShapes);
         printStack();
     }
 

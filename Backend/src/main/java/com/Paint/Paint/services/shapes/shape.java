@@ -50,8 +50,8 @@ public abstract class shape implements Cloneable{// clonable
         this.id = s.id ;
         this.name = s.name ;
         this.Konvaname = s.Konvaname;
-        this.x=s.x+10 ;
-        this.y=s.y+10 ;
+        this.x=s.x ;
+        this.y=s.y ;
         this.draggable = s.draggable ;
         this.scaleofX = s.scaleofX ;
         this.scaleofY = s.scaleofY ;

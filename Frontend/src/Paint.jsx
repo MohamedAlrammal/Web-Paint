@@ -34,6 +34,7 @@ function Paint(){
                      setStrokeColor={setStrokeColor} 
                      color={color} setColor={setColor} 
                      setStrokeWidth={setStrokeWidth}
+                     update={update}
                      setUpdate={setUpdate}/>
                      
             <Paintarea load={load}

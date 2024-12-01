@@ -103,7 +103,6 @@ public class control {
     public ResponseEntity<List<shape>> undo() {
         try {
             System.out.println("hello");
-            paintService.printStack();
             List<shape> result = paintService.undo();
             return ResponseEntity.ok(result);
         } catch (Exception e) {

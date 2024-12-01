@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from 'react';
 import { Stage, Layer, Transformer, Rect, Text, Circle, Line } from 'react-konva';
 import axios from "axios";
+import { Check } from '@mui/icons-material';
+import { Canvas } from 'konva/lib/Canvas';
 
 function Paintarea(props){
     const [stageSize, setStageSize] = useState({width:1450,height:545});
@@ -269,25 +271,34 @@ function Paintarea(props){
             transformerRef.current.getLayer().batchDraw();
             console.log(selectedNode);
         }
-      }, [selectedNode]);
+      }, [selectedNode])
 
       useEffect(() => {
-        if(lastSelectedNode != null && lastSelectedNode != selectedNode){
-          console.log("Sending");
-          console.log(lastSelectedNode.attrs);
-          axios.put(`http://localhost:8080/paint/update`, lastSelectedNode.attrs);
+        const checkDeselection = async () => {
+          console.log("here");
+          console.log(selectedNode);
+          console.log(lastSelectedNode);
+          if(lastSelectedNode != null && lastSelectedNode.attrs != selectedNode.attrs ){
+            console.log("Sending");
+            console.log(lastSelectedNode.attrs);
+            await axios.put(`http://localhost:8080/paint/update`, lastSelectedNode.attrs);
+          }
         }
+        checkDeselection();
       });
 
       const handleClick = (e) => {
         setLastSelectedNode(selectedNode);
-        if(e.target instanceof Konva.Stage){
+        console.log(e.target);
+        if(!(e.target instanceof Konva.Shape)){
           setSelectedNode(null);
         }
         else{
           setSelectedNode(e.target);
         }
       };
+
+      
 
     return(
         <div id="paintarea">
