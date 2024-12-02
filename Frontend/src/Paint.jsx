@@ -7,8 +7,6 @@ function Paint(){
     const [shapeType,setShapeType] = useState();
     const [color,setColor] = useState("#00BFFF");
     const [strokeColor,setStrokeColor] = useState("#00BFFF");
-    const [strokeWidth,setStrokeWidth] = useState(4);
-    const [opactity,setOpacity] = useState(1);
     const [undo,setUndo] = useState(false);
     const [redo,setRedo] = useState(false);
     const [copy,setCopy] = useState(false);
@@ -33,11 +31,10 @@ function Paint(){
                      setCopy={setCopy} 
                      setRedo={setRedo} 
                      setUndo={setUndo} 
-                     setOpacity={setOpacity} 
                      strokeColor={strokeColor} 
                      setStrokeColor={setStrokeColor} 
-                     color={color} setColor={setColor} 
-                     setStrokeWidth={setStrokeWidth}
+                     color={color} 
+                     setColor={setColor} 
                      update={update}
                      setUpdate={setUpdate}/>
                      
@@ -55,8 +52,6 @@ function Paint(){
                        undo={undo}
                        setRedo={setRedo} 
                        setUndo={setUndo}
-                       opactity={opactity} 
-                       strokeWidth={strokeWidth} 
                        color={color} 
                        strokeColor={strokeColor} 
                        shapeType={shapeType}

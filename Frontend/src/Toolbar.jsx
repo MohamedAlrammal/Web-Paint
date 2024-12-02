@@ -63,12 +63,6 @@ function Toolbar(props){
                     <FillColorIcon style={{marginRight: "7px"}} sx={{ fontSize: 27, color: "#B3B3B3", stroke: props.strokeColor, strokeWidth: "2"}}/>
                     <input type='color' onClick={handleUpdate} value={props.strokeColor} onChange={handleStrokeColorChange} style={{display: "none"}}/>
                 </label>
-                <IconButton>
-                    <BorderWidthIcon color='disabled' sx={{ fontSize: 30 }}/>
-                </IconButton>
-                <IconButton>
-                    <OpacityIcon color='disabled' sx={{ fontSize: 30 }}/>
-                </IconButton>
                 <IconButton onClick={() => handleClick("undo")}>
                     <UndoIcon color='disabled' sx={{ fontSize: 30 }}/>
                 </IconButton>

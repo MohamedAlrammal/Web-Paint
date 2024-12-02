@@ -5,6 +5,11 @@ public class Ellipse extends shape {
     private double radiusX;
     private double radiusY;
     private final String Konvaname = "Ellipse";
+
+    public Ellipse() {
+        super();
+    }
+
     public Ellipse(ShapeDTO e) {
         super(e);
         this.radiusX = e.radiusX;
@@ -12,8 +17,8 @@ public class Ellipse extends shape {
     }
     public Ellipse(Ellipse e){
         super(e);
-        this.setRadiusX(e.getScaleofX());
-        this.setRadiusY(e.getScaleofY());
+        this.radiusX = e.radiusX;
+        this.radiusY = e.radiusY;
     }
     @Override
     public void update(ShapeDTO dto){
