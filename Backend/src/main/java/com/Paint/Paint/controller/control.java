@@ -1,6 +1,5 @@
 package com.Paint.Paint.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,20 +133,12 @@ public class control {
     @PostMapping("/load")
     public ResponseEntity<Savefiles> load(@RequestParam String path){
         try{
-            return ResponseEntity.ok(paintService.loadfiles(path));
+            return ResponseEntity.ok(paintService.loadchoice(path));
         }
         catch(Exception e){
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
-    //@PostMapping("/crete")
-    @RequestMapping("/hi")
-    public String hello() {
-        return "hello";
-    }
-
-
 
 }

@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { IconButton } from '@mui/material';
 import CircleIcon from '@mui/icons-material/CircleTwoTone';
 import SquareIcon from '@mui/icons-material/SquareTwoTone';
