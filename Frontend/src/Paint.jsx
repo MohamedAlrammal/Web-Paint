@@ -17,10 +17,14 @@ function Paint(){
     const [save,setSave] = useState(false);
     const [load,setLoad] = useState(false);
     const [update,setUpdate] = useState(false);
+    const [activeShape, setActiveShape] = useState(null);
 
     return(
     <main>
-        <Sidebar shapeType={shapeType} setShapeType={setShapeType} />
+        <Sidebar shapeType={shapeType}
+                 setShapeType={setShapeType}
+                 activeShape={activeShape}
+                 setActiveShape={setActiveShape}/>
         <div className="container">
             <Toolbar setLoad={setLoad} 
                      setSave={setSave} 
@@ -56,6 +60,9 @@ function Paint(){
                        color={color} 
                        strokeColor={strokeColor} 
                        shapeType={shapeType}
+                       setShapeType={setShapeType}
+                       activeShape={activeShape}
+                       setActiveShape={setActiveShape}
                        update={update}
                        setUpdate={setUpdate}/>
         </div>

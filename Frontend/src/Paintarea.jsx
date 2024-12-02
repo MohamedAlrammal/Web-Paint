@@ -92,6 +92,8 @@ function Paintarea(props){
         setNewShape(null);
         setNewID(n => (parseInt(n) + 1).toString());
         setIsDrawing(false);
+        props.setShapeType(null);
+        props.setActiveShape(null)
       };
 
       useEffect(() => {
@@ -343,6 +345,31 @@ function Paintarea(props){
           setSelectedNode(e.target);
         }
       };
+
+      useEffect(() => {
+        const disableDragging = () => {
+          const layer = layerRef.current;
+        
+          layer.children.forEach(child => {
+            child.draggable(false);
+          });
+          layer.batchDraw(); // Redraw the layer to apply changes
+        };
+        const enableDragging = () => {
+          const layer = layerRef.current;
+        
+          layer.children.forEach(child => {
+            child.draggable(true);
+          });
+          layer.batchDraw(); // Redraw the layer to apply changes
+        };
+        if(props.activeShape == null){
+          enableDragging();
+        }
+        else{
+          disableDragging();
+        }
+      });
     
       // Function to handle the color change
       const handleFillColorChange = (color) => {
