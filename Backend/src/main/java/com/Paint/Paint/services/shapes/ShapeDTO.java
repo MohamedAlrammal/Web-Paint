@@ -30,8 +30,8 @@ public class ShapeDTO {  //  data transfer object (DTO)
     public int sides = 0;
     public ArrayList<Double> points = new ArrayList<>() ;
     public double tension = 0;
-    public String fontFamily = "Arial";
+    public String fontFamily = "Calibri";
     public String text = "Enter Text";
-    public double fontSize = 20;
+    public double fontSize = 18;
     public String Konvaname;
 }

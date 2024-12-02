@@ -21,8 +21,6 @@ function Paintarea(props){
     useEffect(() => {
             const handleResize = () => {
             const container = document.getElementById("paintarea");
-            console.log(container);
-            console.log(document.getElementById("konvaLayer"));
             setStageSize({
                 width: container.offsetWidth,
                 height: container.offsetHeight
@@ -45,7 +43,6 @@ function Paintarea(props){
     const transformerRef = useRef(null);
 
     const createShape = async (data) =>{
-      console.log(data);
       const shape = new Konva[data.konvaname](data);
       setNewShape(shape);
       layerRef.current.add(shape);
@@ -97,8 +94,6 @@ function Paintarea(props){
       };
 
       useEffect(() => {
-        console.log(props.color);
-        console.log(typeof(props.color));
         if (selectedNode != null) {
             selectedNode.fill(props.color);
             layerRef.current.batchDraw();
@@ -106,8 +101,6 @@ function Paintarea(props){
       }, [props.color]);
 
       useEffect(() => {
-        console.log(props.strokeColor);
-        console.log(typeof(props.strokeColor));
         if (selectedNode != null) {
             selectedNode.stroke(props.strokeColor);
             layerRef.current.batchDraw();
@@ -116,7 +109,6 @@ function Paintarea(props){
 
       useEffect(() => {
         const clone = async () =>{
-          console.log(selectedNode);
           if (selectedNode != null && props.copy) {
             const response = await axios.post(`http://localhost:8080/paint/clone/${selectedNode.attrs.id}/${newID}`);
             createShape(response.data);
@@ -129,7 +121,6 @@ function Paintarea(props){
 
       useEffect(() => {
         const del = () =>{
-          console.log(selectedNode);
           if (selectedNode != null && props.del) {
             axios.delete(`http://localhost:8080/paint/remove/${selectedNode.attrs.id}`);
             selectedNode.remove();
@@ -159,7 +150,6 @@ function Paintarea(props){
             layerRef.current.draw();
             if(response.data == ""){return;}
             response.data.forEach(shapeData => {
-              console.log(shapeData);
               createShape(shapeData);
             });
           }
@@ -170,7 +160,6 @@ function Paintarea(props){
             layerRef.current.destroyChildren();
             layerRef.current.draw();
             response.data.forEach(shapeData => {
-              console.log(shapeData);
               createShape(shapeData);
             });
             }
@@ -252,9 +241,7 @@ function Paintarea(props){
             const response = await axios.post(`http://localhost:8080/paint/load?path=${path.replaceAll("\\", "/")}`);
             layerRef.current.destroyChildren();
             layerRef.current.draw();
-            console.log(response);
             response.data.shapetosaved.forEach(shapeData => {
-              console.log(shapeData);
               createShape(shapeData);
             });
             setSaved(true);
@@ -276,20 +263,17 @@ function Paintarea(props){
         if (selectedNode) {
             transformerRef.current.nodes([selectedNode]);
             transformerRef.current.getLayer().batchDraw();
-            console.log(selectedNode);
         }
       }, [selectedNode])
 
       useEffect(() => {
       const handleChildChange = () => {
         setLayerChanged(true);
-        console.log("change");
       };
 
       const layer = layerRef.current;
       layer.children.forEach(child => {
         child.on('dragend transformend', handleChildChange);
-        console.log(child.on);
         child.on('change', handleChildChange);
       });
 
@@ -303,8 +287,6 @@ function Paintarea(props){
 
       useEffect(() => {
         const handleChildChange = async (e) => {
-          console.log("Sending");
-            console.log(e.target.attrs);
             if(selectedNode == null){
               await axios.put('http://localhost:8080/paint/update', e.target.attrs);
             }
@@ -322,13 +304,7 @@ function Paintarea(props){
 
       useEffect(() => {
         const checkDeselection = async () => {
-          console.log("here");
-          console.log(selectedNode);
-          console.log(lastSelectedNode);
-    
           if (lastSelectedNode != null && lastSelectedNode !== selectedNode  ) {
-            console.log("Sending");
-            console.log(lastSelectedNode.attrs);
             await axios.put('http://localhost:8080/paint/update', lastSelectedNode.attrs);
             setLayerChanged(false);
           }
@@ -338,7 +314,6 @@ function Paintarea(props){
 
       const handleClick = (e) => {
         setLastSelectedNode(selectedNode);
-        console.log(e.target);
         if (!(e.target instanceof Konva.Shape)) {
           setSelectedNode(null);
         } else {

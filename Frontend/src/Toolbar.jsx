@@ -23,7 +23,6 @@ function Toolbar(props){
 
     function handleUpdate(){
         props.setUpdate(true);
-        console.log(props.update);
     }
     
     function handleClick(option){
