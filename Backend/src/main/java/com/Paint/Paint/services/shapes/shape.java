@@ -66,6 +66,7 @@ public abstract class shape implements Cloneable{// clonable
         this.x = dto.x ;
         this.y = dto.y ;
         this.draggable = dto.draggable ;
+        this.rotation = dto.rotation ;
         this.scaleofX = dto.scaleofX ;
         this.scaleofY = dto.scaleofY ;
         this.stroke = dto.stroke ;
