@@ -47,6 +47,9 @@ public class control {
     @PutMapping("/create/{newX}/{newY}")
     public ResponseEntity<Object> create(@RequestBody ShapeDTO dto, @PathVariable double newX, @PathVariable double newY) {
         try {
+            if(dto.x == newX && dto.y == newY){
+                return ResponseEntity.ok(dto);
+            }
             ShapeFactory factory = new ShapeFactory();
             dto = paintService.updateDTO(dto, newX, newY);
             shape shape = factory.createShape(dto);
