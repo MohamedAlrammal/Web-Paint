@@ -111,6 +111,7 @@ function Paintarea(props){
         const clone = async () =>{
           if (selectedNode != null && props.copy) {
             const response = await axios.post(`http://localhost:8080/paint/clone/${selectedNode.attrs.id}/${newID}`);
+            setNewID(n => (parseInt(n) + 1).toString());
             createShape(response.data);
             setSelectedNode(null);
           }
@@ -301,6 +302,29 @@ function Paintarea(props){
           });
         };
         });
+
+        useEffect(() => {
+          const handleText = async (e) => {
+            console.log(e.target.attrs);
+              if(e.target.attrs.name == "Text"){
+                const text = window.prompt("Enter The Text:");
+                if (text !== null) {
+                  e.target.attrs.text =text;
+                  e.target.attrs.getLayer().batchDraw();
+                  await axios.put('http://localhost:8080/paint/update', e.target.attrs);
+                }
+              }
+          };
+          const layer = layerRef.current;
+          layer.children.forEach(child => {
+            child.on('dblclick', handleText);
+          });
+          return () => {
+            layer.children.forEach(child => {
+              child.off('dblclick', handleText);
+            });
+          };
+          }, [layerRef]);
 
       useEffect(() => {
         const checkDeselection = async () => {

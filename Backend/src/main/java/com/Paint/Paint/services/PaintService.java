@@ -1,6 +1,9 @@
 package com.Paint.Paint.services;
 
+import java.beans.XMLDecoder;
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -160,6 +163,9 @@ public class PaintService {
     public Savefiles loadfromxml(String path) throws IOException {
         Savefiles loadfiles = Savefiles.loadFromXML(path);
         if (loadfiles != null) {
+            undo.clear();
+            redo.clear();
+            undo.push(getShapesFromLoad(loadfiles,path));
             System.out.println("Loaded XML Content:");
             System.out.println(loadfiles.getShapetosaved());
             return loadfiles;
@@ -183,6 +189,9 @@ public class PaintService {
         ObjectMapper objectMapper = new ObjectMapper();
         Savefiles loadfiles = objectMapper.readValue(new File(path), Savefiles.class);
         if (loadfiles != null) {
+            undo.clear();
+            redo.clear();
+            undo.push(getShapesFromLoad(loadfiles,path));
             System.out.println("Loaded JSON Content:");
             System.out.println(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(loadfiles));
             return loadfiles;
@@ -191,6 +200,23 @@ public class PaintService {
             return null;
         }
     }
+    public List<shape> getShapesFromLoad(Savefiles loadfiles, String path) throws IOException {
+        if(path.endsWith(".json")){
+            ObjectMapper mapper = new ObjectMapper();
+            Savefiles loadedSavefiles = mapper.readValue(new File(path), Savefiles.class);
+            return loadedSavefiles.getShapetosaved();
+        }
+        else if(path.endsWith(".xml")){
+          XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(path)));
+          Savefiles savefiles = (Savefiles) decoder.readObject(); // Deserialize XML
+          decoder.close(); 
+          return savefiles.getShapetosaved(); 
+        }
+        else{
+            throw new IllegalArgumentException("Unsupported file format. Please use '.json' or '.xml'.");
+        }
+    }
+    
     public String savechoice(String path) throws IOException {
         if (path.endsWith(".json")) {
             savejson(path);
