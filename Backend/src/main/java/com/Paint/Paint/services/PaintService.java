@@ -129,6 +129,10 @@ public class PaintService {
             dto.points.add(newX - dto.x);
             dto.points.add(newY - dto.y);
         }
+        else if(dto.name.equals("ellipse")){
+            dto.radiusY = Math.abs(newY - dto.y);
+            dto.radiusX = Math.abs(newX - dto.x);
+        }
         else if(dto.name.equals("Rect") || dto.name.equals("text")){
             dto.height = newY - dto.y;
             dto.width = newX - dto.x;
@@ -140,6 +144,7 @@ public class PaintService {
         else if(dto.name.equals("Circle") || dto.name.equals("triangle") || dto.name.equals("polygon") || dto.name.equals("hexagon")){
             dto.radius = Math.sqrt(Math.pow(newY - dto.y,2)+ Math.pow(newX - dto.x,2));
         }
+
         return dto;
     }
     public void savetoxml(String path) throws IOException {

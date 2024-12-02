@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import { IconButton } from '@mui/material';
 import CircleIcon from '@mui/icons-material/CircleTwoTone';
+import EllipseIcon from '@mui/icons-material/AllOutTwoTone';
 import SquareIcon from '@mui/icons-material/SquareTwoTone';
 import TriangleIcon from '@mui/icons-material/ChangeHistoryTwoTone';
 import RectangleIcon from '@mui/icons-material/RectangleTwoTone';
@@ -9,7 +10,6 @@ import LineIcon from '@mui/icons-material/HorizontalRule';
 import ShapesIcon from '@mui/icons-material/CategoryRounded';
 import TextIcon from '@mui/icons-material/TextFields';
 import HexagonIcon from '@mui/icons-material/HexagonTwoTone';
-import { useState } from 'react';
 
 function Sidebar(props){
     const handleShapeType = (shape, e) =>{
@@ -36,6 +36,10 @@ function Sidebar(props){
             <IconButton title='Circle' onClick={(e)=>handleShapeType("Circle",e)}
                         sx={{ backgroundColor: props.activeShape === 'Circle' ? '#e0e0e0' : 'transparent' }}>
                 <CircleIcon color='disabled' fontSize="large"/>
+            </IconButton>
+            <IconButton title='Ellipse' onClick={(e)=>handleShapeType("ellipse",e)}
+                        sx={{ backgroundColor: props.activeShape === 'ellipse' ? '#e0e0e0' : 'transparent' }}>
+                <EllipseIcon color='disabled' fontSize="large"/>
             </IconButton>
             <IconButton title='Square' onClick={(e)=>handleShapeType("square",e)}
                         sx={{ backgroundColor: props.activeShape === 'square' ? '#e0e0e0' : 'transparent' }}>
