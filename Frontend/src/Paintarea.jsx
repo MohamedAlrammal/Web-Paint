@@ -326,7 +326,7 @@ function Paintarea(props){
       };
     
       // Function to handle the color change
-      const handleColorChange = (color) => {
+      const handleFillColorChange = (color) => {
         if (selectedNode) {
           selectedNode.fill(color);  // Change the fill color of the selected node
           selectedNode.getLayer().batchDraw();  // Re-render the layer
