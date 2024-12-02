@@ -300,6 +300,25 @@ function Paintarea(props){
       },[]);
 
       useEffect(() => {
+        const handleChildChange = async (e) => {
+          console.log("Sending");
+            console.log(e.target.attrs);
+            if(selectedNode == null){
+              await axios.put('http://localhost:8080/paint/update', e.target.attrs);
+            }
+        };
+        const layer = layerRef.current;
+        layer.children.forEach(child => {
+          child.on('dragend', handleChildChange);
+        });
+        return () => {
+          layer.children.forEach(child => {
+            child.off('dragend', handleChildChange);
+          });
+        };
+        });
+
+      useEffect(() => {
         const checkDeselection = async () => {
           console.log("here");
           console.log(selectedNode);
