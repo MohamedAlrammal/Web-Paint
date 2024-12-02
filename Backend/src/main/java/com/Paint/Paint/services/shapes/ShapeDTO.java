@@ -15,6 +15,10 @@ public class ShapeDTO {  //  data transfer object (DTO)
     public boolean draggable = true;
     public double scaleofY = 0;
     public double scaleofX = 0;
+    public double scaleY = 1;
+    public double scaleX = 1;
+    public double skewY = 0;
+    public double skewX = 0;
     public String stroke = "black";
     public double strokeWidth = 4;
     public String fill = "white";

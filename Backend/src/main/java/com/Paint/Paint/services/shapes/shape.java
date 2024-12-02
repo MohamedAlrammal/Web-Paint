@@ -27,6 +27,10 @@ public abstract class shape implements Cloneable{// clonable
     private boolean draggable;
     private double scaleofY;
     private double scaleofX;
+    private double scaleY;
+    private double scaleX;
+    private double skewY;
+    private double skewX;
     private String stroke;
     private double strokeWidth;
     private String Konvaname;
@@ -45,6 +49,10 @@ public abstract class shape implements Cloneable{// clonable
         this.draggable = docreate.draggable ;
         this.scaleofX = docreate.scaleofX ;
         this.scaleofY = docreate.scaleofY ;
+        this.scaleX = docreate.scaleX ;
+        this.scaleY = docreate.scaleY ;
+        this.skewX = docreate.skewX ;
+        this.skewY = docreate.skewY ;
     }
     public shape(shape s){ //copy
         this.id = s.id ;
@@ -58,6 +66,10 @@ public abstract class shape implements Cloneable{// clonable
         this.stroke = s.stroke ;
         this.strokeWidth = s.strokeWidth ;
         this.fill = s.fill ;
+        this.scaleX = s.scaleX ;
+        this.scaleY = s.scaleY ;
+        this.skewX = s.skewX ;
+        this.skewY = s.skewY ;
     }
     public void update(ShapeDTO dto){
         this.id = dto.id ;
@@ -69,9 +81,13 @@ public abstract class shape implements Cloneable{// clonable
         this.rotation = dto.rotation ;
         this.scaleofX = dto.scaleofX ;
         this.scaleofY = dto.scaleofY ;
+        this.scaleX = dto.scaleX ;
+        this.scaleY = dto.scaleY ;
         this.stroke = dto.stroke ;
         this.strokeWidth = dto.strokeWidth ;
         this.fill = dto.fill ;
+        this.skewX = dto.skewX ;
+        this.skewY = dto.skewY ;
     }
     public abstract shape clone(String cloneid)throws CloneNotSupportedException;
 
@@ -146,8 +162,40 @@ public abstract class shape implements Cloneable{// clonable
     public String getFill() {
         return fill;
     }
+
+    public double getSkewY() {
+        return skewY;
+    }
+
+    public void setSkewY(double skewY) {
+        this.skewY = skewY;
+    }
+
+    public double getSkewX() {
+        return skewX;
+    }
+
+    public void setSkewX(double skewX) {
+        this.skewX = skewX;
+    }
+
+    public double getScaleX() {
+        return scaleX;
+    }
+
+    public void setScaleX(double scaleX) {
+        this.scaleX = scaleX;
+    }
+
     public void setFill(String fill) {
         this.fill = fill;
     }
 
+    public double getScaleY() {
+        return scaleY;
+    }
+
+    public void setScaleY(double scaleY) {
+        this.scaleY = scaleY;
+    }
 }

@@ -305,7 +305,7 @@ function Paintarea(props){
           console.log(selectedNode);
           console.log(lastSelectedNode);
     
-          if (lastSelectedNode != null && lastSelectedNode !== selectedNode && selectedNode ==null ) {
+          if (lastSelectedNode != null && lastSelectedNode !== selectedNode  ) {
             console.log("Sending");
             console.log(lastSelectedNode.attrs);
             await axios.put('http://localhost:8080/paint/update', lastSelectedNode.attrs);
