@@ -10,6 +10,7 @@ import LineIcon from '@mui/icons-material/HorizontalRule';
 import ShapesIcon from '@mui/icons-material/CategoryRounded';
 import TextIcon from '@mui/icons-material/TextFields';
 import HexagonIcon from '@mui/icons-material/HexagonTwoTone';
+import PentagonIcon from '@mui/icons-material/PentagonTwoTone';
 
 function Sidebar(props){
     const handleShapeType = (shape, e) =>{
@@ -52,6 +53,10 @@ function Sidebar(props){
             <IconButton title='Triangle' onClick={(e)=>handleShapeType("triangle",e)}
                         sx={{ backgroundColor: props.activeShape === 'triangle' ? '#e0e0e0' : 'transparent' }}>
                 <TriangleIcon color='disabled' fontSize="large"/>
+            </IconButton>
+            <IconButton title='Pentagon' onClick={(e)=>handleShapeType("pentagon",e)}
+                        sx={{ backgroundColor: props.activeShape === 'pentagon' ? '#e0e0e0' : 'transparent' }}>
+                <PentagonIcon color='disabled' fontSize="large"/>
             </IconButton>
             <IconButton title='Hexagon' onClick={(e)=>handleShapeType("hexagon",e)}
                         sx={{ backgroundColor: props.activeShape === 'hexagon' ? '#e0e0e0' : 'transparent' }}>

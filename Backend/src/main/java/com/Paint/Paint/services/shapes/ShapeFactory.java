@@ -15,6 +15,8 @@ public class ShapeFactory {
                 return new Triangle(dto);
             case "hexagon":
               return new Hexagon(dto);
+            case "pentagon":
+                return new Pentagon(dto);
             case "text":
                 return new Text(dto);
             case "Line":
@@ -37,6 +39,12 @@ public class ShapeFactory {
                 return new Triangle((Triangle) s);
             case "hexagon":
                 return new Hexagon((Hexagon) s);
+            case "pentagon":
+                return new Pentagon((Pentagon) s);
+            case "text":
+                return new Text((Text) s);
+            case "Line":
+                return new Line((Line) s);
             default:
                 throw new IllegalArgumentException("Invalid shape type: " + s.getName());
         }

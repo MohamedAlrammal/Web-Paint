@@ -141,7 +141,7 @@ public class PaintService {
             dto.height = newY - dto.y;
             dto.width = dto.height;
         }
-        else if(dto.name.equals("Circle") || dto.name.equals("triangle") || dto.name.equals("polygon") || dto.name.equals("hexagon")){
+        else if(dto.name.equals("Circle") || dto.name.equals("triangle") || dto.name.equals("polygon") || dto.name.equals("hexagon") || dto.name.equals("pentagon")){
             dto.radius = Math.sqrt(Math.pow(newY - dto.y,2)+ Math.pow(newX - dto.x,2));
         }
 
