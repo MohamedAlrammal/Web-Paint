@@ -1,3 +1,6 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 import { useEffect, useState, useRef } from 'react';
 import { Stage, Layer, Transformer, Rect, Text, Circle, Line } from 'react-konva';
 import axios from "axios";
@@ -265,6 +268,8 @@ function Paintarea(props){
         }
       }, [props.save, props.load]);
 
+      const [layerChanged, setLayerChanged] = useState(false);
+  
       useEffect(() => {
         if (selectedNode) {
             transformerRef.current.nodes([selectedNode]);
@@ -274,32 +279,67 @@ function Paintarea(props){
       }, [selectedNode])
 
       useEffect(() => {
+      const handleChildChange = () => {
+        setLayerChanged(true);
+        console.log("change");
+      };
+
+      const layer = layerRef.current;
+      layer.children.forEach(child => {
+        child.on('dragend transformend', handleChildChange);
+        console.log(child.on);
+        child.on('change', handleChildChange);
+      });
+
+      return () => {
+        layer.children.forEach(child => {
+          child.off('dragend transformend', handleChildChange);
+          child.off('change', handleChildChange);
+        });
+      };
+      },[]);
+
+      useEffect(() => {
         const checkDeselection = async () => {
           console.log("here");
           console.log(selectedNode);
           console.log(lastSelectedNode);
-          if(lastSelectedNode != null && lastSelectedNode.attrs != selectedNode.attrs ){
+    
+          if (lastSelectedNode != null && lastSelectedNode !== selectedNode && selectedNode ==null ) {
             console.log("Sending");
             console.log(lastSelectedNode.attrs);
-            await axios.put(`http://localhost:8080/paint/update`, lastSelectedNode.attrs);
+            await axios.put('http://localhost:8080/paint/update', lastSelectedNode.attrs);
+            setLayerChanged(false);
           }
-        }
+        };
         checkDeselection();
-      });
+      }, [selectedNode, lastSelectedNode, layerChanged]);
 
       const handleClick = (e) => {
         setLastSelectedNode(selectedNode);
         console.log(e.target);
-        if(!(e.target instanceof Konva.Shape)){
+        if (!(e.target instanceof Konva.Shape)) {
           setSelectedNode(null);
-        }
-        else{
+        } else {
           setSelectedNode(e.target);
         }
       };
-
-      
-
+    
+      // Function to handle the color change
+      const handleColorChange = (color) => {
+        if (selectedNode) {
+          selectedNode.fill(color);  // Change the fill color of the selected node
+          selectedNode.getLayer().batchDraw();  // Re-render the layer
+          setLayerChanged(true);  // Mark layer as changed
+        }
+      };
+      const handleStrokeColorChange = (color) => {
+        if (selectedNode) {
+          selectedNode.stroke(color);
+          selectedNode.getLayer().batchDraw();
+          setLayerChanged(true);
+        }
+      };
     return(
         <div id="paintarea">
             <Stage width={stageSize.width} height={stageSize.height}
@@ -311,8 +351,26 @@ function Paintarea(props){
                   {selectedNode && <Transformer ref={transformerRef} />}
                 </Layer>
             </Stage>
+      {/* Color pickers to change the shape's fill and stroke colors */}
+      {selectedNode && (
+        <div>
+          <label>
+            <input style={{display: "none"}}
+              type="color"
+              value={selectedNode.fill()}
+              onChange={(e) => handleFillColorChange(e.target.value)}
+            />
+          </label>
+          <label>
+            <input style={{display: "none"}}
+              type="color"
+              value={selectedNode.stroke()}
+              onChange={(e) => handleStrokeColorChange(e.target.value)}
+            />
+          </label>
         </div>
+      )}
+    </div>
     );
 }
-
 export default Paintarea

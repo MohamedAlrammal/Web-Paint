@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { useState, useEffect, useRef } from 'react';
 import { IconButton } from '@mui/material'
 import FillColorIcon from '@mui/icons-material/SquareRounded'
