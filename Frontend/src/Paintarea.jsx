@@ -1,6 +1,4 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-undef */
+import _ from 'lodash';
 import { useEffect, useState, useRef } from 'react';
 import { Stage, Layer, Transformer, Rect, Text, Circle, Line } from 'react-konva';
 import axios from "axios";
@@ -329,7 +327,12 @@ function Paintarea(props){
       useEffect(() => {
         const checkDeselection = async () => {
           if (lastSelectedNode != null && lastSelectedNode !== selectedNode  ) {
-            await axios.put('http://localhost:8080/paint/update', lastSelectedNode.attrs);
+            console.log(lastSelectedNode.attrs);
+            const response = await axios.post('http://localhost:8080/paint/getShape', lastSelectedNode.attrs);
+            console.log(response.data);
+            if(!_.isEqual(response.data, lastSelectedNode.attrs)){
+              await axios.put('http://localhost:8080/paint/update', lastSelectedNode.attrs);
+            }
             setLayerChanged(false);
           }
         };
